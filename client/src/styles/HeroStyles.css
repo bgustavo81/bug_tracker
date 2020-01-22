@@ -1,0 +1,60 @@
+.HeroContainer {
+    height: 720px;
+    width: 100%;
+    background-image: url('/images/beetle.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.HeroTitle {
+    margin-bottom: 186px;
+    font-size: 56px;
+}
+
+.HeroText {
+    font-size: 24px;
+    margin-bottom: 64px;
+}
+
+.HeroTextContainer {
+    text-align: center;
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    max-width: 720px;
+}
+
+.HeroLink 	.MuiButton-sizeLarge {
+    height: 64px;
+    width: 140px;
+    font-size: 18px;
+}
+
+.HeroLink {
+    margin: 32px;
+}
+
+@media screen and (max-width: 640px) {
+    .HeroTitle {
+        font-size: 32px;
+    }
+    .HeroText {
+        font-size: 18px;
+    }
+    .HeroContainer {
+        height: 700px;
+    }
+    .HeroLink {
+        margin: 12px;
+    }
+    .HeroLink .MuiButton-sizeLarge {
+        height: 42px;
+        width: 86px;
+        font-size: 12px;
+    }
+}

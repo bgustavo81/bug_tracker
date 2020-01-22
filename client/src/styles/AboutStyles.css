@@ -1,0 +1,136 @@
+.AboutContainer {
+    background-color: #f4f4f4;
+    padding: 32px;
+}
+
+.AboutTitle {
+    margin-bottom: 48px;
+    font-size: 42px;
+    text-align: center;
+}
+
+.AboutIconContainer {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 1200px;
+    margin: 0 auto 64px auto;
+}
+
+.AboutIconItem {
+    background-color: #197EAB;
+    color: #f4f4f4;
+    height: 240px;
+    width: 240px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.AboutIconText {
+    font-size: 26px;
+}
+
+.AboutIconItem .MuiSvgIcon-root {
+    font-size: 84px;
+}
+
+.One {
+    margin-top: 24px;
+}
+
+.Two {
+    margin-top: 144px;
+}
+
+.Three {
+    margin-top: 264px;
+}
+
+.AboutHowContainer, .AboutSignUp {
+    background-color: #197EAB;
+    color: white;
+    margin: 0 auto 64px auto;
+    max-width: 1200px;
+    border-radius: 5px;
+    padding: 24px 24px 48px 24px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.AboutHowChecklist {
+    max-width: 320px;
+    margin: 0 auto;
+    font-size: 24px;
+}
+
+.AboutPayChecklist {
+    max-width: 360px;
+    margin: 0 auto;
+    font-size: 24px;
+}
+
+.AboutSignUp {
+    margin-top: 120px;
+}
+
+.AboutSignUpList {
+    max-width: 420px;
+    margin: 0 auto;
+    font-size: 32px;
+    text-align: center;
+}
+
+.AboutPayChecklist .MuiSvgIcon-root, .AboutSignUpList .MuiSvgIcon-root {
+    font-size: 42px;
+    vertical-align: middle;
+}
+
+.AboutSignUp .MuiButton-sizeLarge {
+    height: 64px;
+    max-width: 140px;
+    font-size: 18px;
+}
+
+@media all and (max-width: 720px) {
+    .AboutIconItem {
+        height: 180px;
+        width: 180px;
+        text-align: center;
+        border-radius: 5px;
+    }
+    
+    .AboutIconText {
+        font-size: 24px;
+    }
+    
+    .AboutIconItem .MuiSvgIcon-root {
+        font-size: 42px;
+    }
+}
+
+@media all and (max-width: 580px) {
+    .AboutIconItem {
+        height: 120px;
+        width: 120px;
+        text-align: center;
+        border-radius: 5px;
+    }
+    
+    .AboutIconText {
+        font-size: 18px;
+    }
+    
+    .AboutIconItem .MuiSvgIcon-root {
+        font-size: 36px;
+    }
+
+    .AboutTitle {
+        font-size: 32px;
+    }
+    
+    .AboutHowChecklist, .AboutPayChecklist, .AboutSignUp, .AboutSignUpList {
+        font-size: 18px;
+    }
+}
+
+
+
