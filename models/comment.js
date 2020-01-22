@@ -8,38 +8,38 @@ module.exports = class Comment {
         this.bugId = bugId;
     }
 
-    static getComment(id) {
+    static getComment(commentId) {
         return pool.query(
-            'SELECT * FROM comments WHERE commentId = $1',
-            [id]
+            'SELECT * FROM comments WHERE comment_id = $1',
+            [commentId]
         )
     }
 
     static getComments() {
         return pool.query(
-            'SELECT * FROM comments ORDER BY commentId DESC'
+            'SELECT * FROM comments ORDER BY comment_id DESC'
         )
     }
 
     createComment() {
         return pool.query(
-            `INSERT INTO comments (userId, content, bugId)
-                VALUES ($1, $2, $3,)`,
+            `INSERT INTO comments (author, content, bug_id)
+                VALUES ($1, $2, $3)`,
             [this.userId, this.content, this.bugId]
         )
     }
 
     static updateComment(content, commentId) {
         return pool.query(
-            `UPDATE comments SET content = $1 WHERE commentId = $2`,
+            `UPDATE comments SET content = $1 WHERE comment_id = $2`,
             [content, commentId]
         )
     }
     
-    static deleteComment(id) {
+    static deleteComment(commentId) {
         return pool.query(
-            'DELETE FROM comments WHERE commentId = $1',
-            [id]
+            'DELETE FROM comments WHERE comment_id = $1',
+            [commentId]
         )
     }
 }

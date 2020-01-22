@@ -10,25 +10,35 @@ module.exports = class Bug {
         image,
         deadline,
         author,
-        devEmails
-    )
+        devEmail
+    ) {
+        this.bugId = bugId;
+        this.bugTitle = bugTitle;
+        this.priority = priority;
+        this.status = status;
+        this.bugDesc = bugDesc;
+        this.image = image;
+        this.deadline = deadline;
+        this.author = author;
+        this.devEmail = devEmail;
+    }
 
     static getBug(id) {
         return pool.query(
-            'SELECT * FROM bugs WHERE bugId = $1',
+            'SELECT * FROM bugs WHERE bug_Id = $1',
             [id]
         )
     };
 
     static getBugs() {
         return pool.query(
-            'SELECT * FROM bugs ORDER BY bugId DESC',
+            'SELECT * FROM bugs ORDER BY bug_Id DESC',
         );
     }
 
     createBug() {
         return pool.query(
-            `INSERT INTO bugs (bugTitle, priority, status, bugDesc, image, deadline, author, devEmails)
+            `INSERT INTO bugs (bug_title, priority, status, bug_desc, image, deadline, author, dev_email)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
             [
                 this.bugTitle, 
@@ -38,30 +48,30 @@ module.exports = class Bug {
                 this.image, 
                 this.deadline, 
                 this.author, 
-                this.devEmails
+                this.devEmail
             ]
         )
     }
 
-    static updateBug(bugTitle, priority, status, bugDesc, image, deadline, author, devEmails, bugId) {
+    static updateBug(bugTitle, priority, status, bugDesc, image, deadline, author, devEmail, bugId) {
         return pool.query(
             `UPDATE bugs SET 
-                bugTitle = $1,
+                bug_title = $1,
                 priority = $2,
                 status = $3,
-                bugDesc = $4,
+                bug_desc = $4,
                 image = $5,
                 deadline = $6,
                 author = $7,
-                devEmails = $8
-            WHERE bugId = $9`,
-            [bugTitle, priority, status, bugDesc, image, deadline, author, devEmails, bugId]
+                dev_email = $8
+            WHERE bug_id = $9`,
+            [bugTitle, priority, status, bugDesc, image, deadline, author, devEmail, bugId]
         )
     }
 
     static deleteBug(bugId) {
         return pool.query(
-            'DELETE FROM bugs WHERE bugId = $1',
+            'DELETE FROM bugs WHERE bug_id = $1',
             [id]
         )
     }

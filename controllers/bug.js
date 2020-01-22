@@ -41,7 +41,7 @@ exports.createBug = async (req, res, next) => {
     const image = req.body.image;
     const deadline = req.body.deadline;
     const author = req.body.author;
-    const devEmails = req.body.devEmails;
+    const devEmail = req.body.devEmail;
     const bug = new Bug(
         bugTitle,
         priority,
@@ -50,7 +50,7 @@ exports.createBug = async (req, res, next) => {
         image,
         deadline,
         author,
-        devEmails
+        devEmail
     );
     try {
         bug.bugTitle = bugTitle;
@@ -60,7 +60,7 @@ exports.createBug = async (req, res, next) => {
         bug.image = image;
         bug.deadline = deadline;
         bug.author = author;
-        bug.devEmails = devEmails;
+        bug.devEmail = devEmail;
         const result = await bug.createBug();
         res.status(201).json({
             message: 'Created!',
@@ -83,7 +83,7 @@ exports.updateBug = async (req, res, next) => {
     const image = req.body.image;
     const deadline = req.body.deadline;
     const author = req.body.author;
-    const devEmails = req.body.devEmails;
+    const devEmail = req.body.devEmail;
     try {
         const bug = await Bug.getBug(bugId);
         if (!bug) {
@@ -99,7 +99,7 @@ exports.updateBug = async (req, res, next) => {
         bug.image = image;
         bug.deadline = deadline;
         bug.author = author;
-        bug.devEmails = devEmails;
+        bug.devEmail = devEmail;
         const result = await Bug.updateBug(
             bugTitle,
             priority,
@@ -108,7 +108,7 @@ exports.updateBug = async (req, res, next) => {
             image,
             deadline,
             author,
-            devEmails,
+            devEmail,
             bugId
         );
         res.status(200).json({

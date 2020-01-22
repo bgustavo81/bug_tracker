@@ -29,8 +29,8 @@ exports.getComments = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
-        next(err);
     }
+    next(err);
 }
 
 exports.createComment = async (req, res, next) => {
@@ -86,7 +86,7 @@ exports.deleteComment = async (req, res, next) => {
         const result = Comment.deleteComment(commentId)
             .then(comment => {
                 if (!comment) {
-                    const eror = new Error("Could not delete bug");
+                    const error = new Error("Could not delete bug");
                     error.statusCode = 404;
                     throw error;
                 }
@@ -99,6 +99,6 @@ exports.deleteComment = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
-        next(err);
     }
+    next(err);
 }
