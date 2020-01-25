@@ -38,6 +38,7 @@ app.use((req, res, next) => {
 
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 app.use('/', bugRoutes);
 app.use('/', commentRoutes);
 app.use('/', userRoutes);
