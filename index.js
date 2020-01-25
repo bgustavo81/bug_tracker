@@ -59,7 +59,7 @@ app.use((error, req, res, next) => {
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets 
     // like our main.js file or main.css file
-    app.user(express.static('client/build'));
+    app.use(express.static('client/build'));
 
     // Express will serve up the index.html file
     // if it doesn't recognize the route
