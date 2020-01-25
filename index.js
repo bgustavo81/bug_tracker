@@ -43,9 +43,9 @@ app.use('/', bugRoutes);
 app.use('/', commentRoutes);
 app.use('/', userRoutes);
 
-app.get('/', (req, res, next) => {
-    res.send({homepage: "hello"})
-})
+// app.get('/', (req, res, next) => {
+//     res.send({homepage: "hello"})
+// })
 
 
 app.use((error, req, res, next) => {
