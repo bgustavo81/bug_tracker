@@ -10,7 +10,6 @@ import Payments from './Payments';
 
 class Header extends Component {
   renderContent() {
-    console.log(this.props);
     switch(this.props.auth.auth) {
       case null:
         return;
@@ -28,7 +27,7 @@ class Header extends Component {
         return (
           <React.Fragment>
             <IconButton edge="start">
-              <Link to='/bugs' className='link icon'><BugReportIcon fontSize="large" /></Link>
+              <Link to='/projects' className='link icon'><BugReportIcon fontSize="large" /></Link>
             </IconButton>
             <div className="link trackerly">
               <Link to='/' className='link parkly'>Bug Trackerly</Link>              

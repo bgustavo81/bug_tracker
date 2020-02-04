@@ -1,15 +1,13 @@
 const Bug  = require('../models/bug');
 
 exports.getBug = async (req, res, next) => {
-    const bugId = req.params.bugId
-    console.log(bugId);
+    let bugId = req.params.bugId;
     try {
         const result = await Bug.getBug(bugId);
         let status = res.status(200).json({
             message: `message ${bugId} was retrieved`,
             bug: result.rows
         });
-        console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -42,7 +40,10 @@ exports.createBug = async (req, res, next) => {
     const deadline = req.body.deadline;
     const author = req.body.author;
     const devEmail = req.body.devEmail;
+    const projId = req.body.projId;
+
     const bug = new Bug(
+        null,
         bugTitle,
         priority,
         status,
@@ -50,17 +51,10 @@ exports.createBug = async (req, res, next) => {
         image,
         deadline,
         author,
-        devEmail
+        devEmail,
+        projId
     );
     try {
-        bug.bugTitle = bugTitle;
-        bug.priority = priority;
-        bug.status = status;
-        bug.bugDesc = bugDesc;
-        bug.image = image;
-        bug.deadline = deadline;
-        bug.author = author;
-        bug.devEmail = devEmail;
         const result = await bug.createBug();
         res.status(201).json({
             message: 'Created!',
@@ -75,7 +69,6 @@ exports.createBug = async (req, res, next) => {
 };
 
 exports.updateBug = async (req, res, next) => {
-    const bugId = req.params.bugId;
     const bugTitle = req.body.bugTitle;
     const priority = req.body.priority;
     const status = req.body.status;
@@ -84,6 +77,7 @@ exports.updateBug = async (req, res, next) => {
     const deadline = req.body.deadline;
     const author = req.body.author;
     const devEmail = req.body.devEmail;
+    const bugId = req.params.bugId;
     try {
         const bug = await Bug.getBug(bugId);
         if (!bug) {
@@ -91,15 +85,6 @@ exports.updateBug = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        bug.bugId = bugId;
-        bug.bugTitle = bugTitle;
-        bug.priority = priority;
-        bug.status = status;
-        bug.bugDesc = bugDesc;
-        bug.image = image;
-        bug.deadline = deadline;
-        bug.author = author;
-        bug.devEmail = devEmail;
         const result = await Bug.updateBug(
             bugTitle,
             priority,
@@ -107,10 +92,19 @@ exports.updateBug = async (req, res, next) => {
             bugDesc,
             image,
             deadline,
-            author,
             devEmail,
             bugId
         );
+        console.log(
+            bugTitle,
+            priority,
+            status,
+            bugDesc,
+            image,
+            deadline,
+            devEmail,
+            bugId
+        )
         res.status(200).json({
             message: "Updated!",
             bug: result.rows
@@ -134,8 +128,7 @@ exports.deleteBug = async (req, res, next) => {
                 throw error;
             }
             res.status(200).json({
-                message: "Deleted!",
-                bug: result.rows
+                message: "Deleted!"
             });
         })
     } catch (err) {

@@ -29,7 +29,6 @@ import {
 
 export const fetchCurrentUser = () => async dispatch => {
     const response = await axios.get("/api/current_user");
-    console.log(response.data.rows);
 
     dispatch({ type: FETCH_CURRENT_USER, payload: response.data.rows });
 };
@@ -67,14 +66,14 @@ export const createUser = (formValues) => async (dispatch, getState) => {
 }
 
 export const updateUser = (userId, formValues) => async dispatch => {
-    const response = await server.patch(`/posts/${userId}`, formValues);
+    const response = await server.patch(`/user/${userId}`, formValues);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
     history.push('/users');
 }
 
 export const deleteUser = (userId) => async dispatch => {
-    await server.delete(`/posts/${userId}`);
+    await server.delete(`/user/${userId}`);
 
     dispatch({ type: DELETE_USER, payload: userId });
     history.push('/users');
@@ -84,19 +83,21 @@ export const deleteUser = (userId) => async dispatch => {
 
 export const fetchProject = (projId) => async dispatch => {
     const response = await server.get(`/project/${projId}`);
+    console.log(response.data.projects[0]);
     
-    dispatch({ type: FETCH_PROJECT, payload: response.data });
+    dispatch({ type: FETCH_PROJECT, payload: response.data.projects[0] });
 }
 
 export const fetchProjects = () => async dispatch => {
     const response = await server.get('/projects');
 
-    dispatch({ type: FETCH_PROJECTS, payload: response.data });
+    console.log(response.data.projects)
+    dispatch({ type: FETCH_PROJECTS, payload: response.data.projects });
 };
 
 export const createProject = (formValues) => async (dispatch, getState) => {
     // getState for auth object
-    const { userId } = getState().auth;
+    let userId = getState().auth[0].user_id;
     const response = await server.post("/project", {...formValues, userId});
 
     dispatch({ type: CREATE_PROJECT, payload: response.data });
@@ -106,8 +107,10 @@ export const createProject = (formValues) => async (dispatch, getState) => {
 export const updateProject = (projId, formValues) => async dispatch => {
     const response = await server.patch(`/project/${projId}`, formValues);
 
+    console.log(response.data);
+
     dispatch({ type: UPDATE_PROJECT, payload: response.data });
-    history.push('/projects');
+    history.push(`/project/${projId}`);
 }
 
 export const deleteProject = (projId) => async dispatch => {
@@ -121,36 +124,38 @@ export const deleteProject = (projId) => async dispatch => {
 
 export const fetchBug = (bugId) => async dispatch => {
     const response = await server.get(`/bug/${bugId}`);
+    console.log(response.data.bug);
 
-    dispatch({ type: FETCH_BUG, payload: response.data });
+    dispatch({ type: FETCH_BUG, payload: response.data.bug });
 };
 
 export const fetchBugs = () => async dispatch => {
     const response = await server.get("/bugs");
 
-    dispatch({ type: FETCH_BUGS, payload: response.data });
+    dispatch({ type: FETCH_BUGS, payload: response.data.bugs });
 };
 
-export const createBug = (formValues) => async (dispatch, getState) => {
+export const createBug = (formValues, projId) => async (dispatch, getState) => {
     // getState for auth object
-    const { userId } = getState().auth;
-    const response = await server.post('/bug', { ...formValues, userId });
+    let author = getState().auth[0].user_id;
+    const response = await server.post('/bug', { ...formValues, author, projId });
 
     dispatch({ type: CREATE_BUG, payload: response.data });
-    history.push('/bugs');
+    history.push(`/project/${projId}`);
 };
 
 export const updateBug = (bugId, formValues) => async dispatch => {
     const response = await server.patch(`/bug/${bugId}`, formValues);
 
     dispatch({ type: UPDATE_BUG, payload: response.data });
-    history.push('/bugs');
+    history.push(`/projects`);
 };
 
 export const deleteBug = (bugId) => async dispatch => {
     await server.delete(`/bug/${bugId}`);
 
     dispatch({ type: DELETE_BUG, payload: bugId })
+    history.push('/projects')
 }
 
 // actions for Comments

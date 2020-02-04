@@ -7,32 +7,33 @@ module.exports = class Project {
         this.title = title;
         this.content = content;
         this.deadline = deadline;
+        console.log(userId, title, content, deadline)
     }
 
     static getProject(projId) {
         return pool.query(
-            'SELECT * FROM projects where project_id = $1',
+            'SELECT * FROM projects WHERE project_id = $1',
             [projId]
         )
     }
 
     static getProjects() {
         return pool.query(
-            'SELECT * FROM projects ORDER BY project_id'
+            'SELECT * FROM projects ORDER BY project_id DESC'
         )
     }
 
     createProject() {
         return pool.query(
-            'INSERT INTO projects (author, title, content, deadline)',
+            'INSERT INTO projects (author, title, content, deadline) VALUES ($1, $2, $3, $4)',
             [this.userId, this.title, this.content, this.deadline]
         )
     }
 
-    static updateProject(title, content, deadline) {
+    static updateProject(title, content, deadline, projId) {
         return pool.query(
-            `UPDATE projects SET title = $1, content = $2, deadline = $3`,
-            [title, content, deadline]
+            `UPDATE projects SET title = $1, content = $2, deadline = $3 WHERE project_id = $4`,
+            [title, content, deadline, projId]
         )
     }
 

@@ -12,7 +12,7 @@ export default (state = {}, action) => {
         case FETCH_PROJECT:
             return { ...state, [action.payload.id]: action.payload};
         case FETCH_PROJECTS: 
-            return { ...state, ..._.mapKeys(action.payload, 'projId')};
+            return { ...state, [action.payload.id]: action.payload};
         case CREATE_PROJECT:   
             return { ...state, [action.payload.id]: action.payload};
         case UPDATE_PROJECT:

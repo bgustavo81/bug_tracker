@@ -12,7 +12,7 @@ export default (state = {}, action) => {
         case FETCH_BUG:
             return { ...state, [action.payload.id]: action.payload};
         case FETCH_BUGS:
-            return { ...state, ..._.mapKeys(action.payload, "bugId")};
+            return { ...state, [action.payload.id]: action.payload};
         case CREATE_BUG:
             return { ...state, [action.payload.id]: action.payload};
         case UPDATE_BUG:

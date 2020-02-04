@@ -1,4 +1,4 @@
-const Project = require('../models/user');
+const Project = require('../models/project');
 
 exports.getProject = async (req, res, next) => {
     const projId = req.params.projId;
@@ -6,55 +6,53 @@ exports.getProject = async (req, res, next) => {
         const result = await Project.getProject(projId);
         let status = res.status(200).json({
             message: `project ${projId} was retrieved`,
-            project: result.rows
-        });
-        console.log(staus);
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-    }
-    next(err);
-}
-
-exports.getProjects = async (req, res, next) => {
-    try {
-        const result = await Project.getProjects();
-        let status = res.status(200).json({
-            message: "Fetch projects successfully.",
-            project: result.rows
+            projects: result.rows
         });
         console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 }
 
+exports.getProjects = async (req, res, next) => {
+    try {
+        const result = await Project.getProjects();
+        res.status(200).json({
+            message: 'Fetched projects sucessfully.',
+            projects: result.rows
+        })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
+
+
 exports.createProject = async (req, res, next) => {
-    const author = req.body.author;
     const title = req.body.title;
     const content = req.body.content;
     const deadline = req.body.deadline;
-    const project = new Project(author, title, content, deadline);
+    const userId = req.body.userId;
+    console.log(userId);
+    const project = new Project(null, userId, title, content, deadline);
     try {
-        project.author = author;
-        project.title = title;
-        project.content = content;
-        project.deadline = deadline;
         const result = await project.createProject();
         const status = res.status(201).json({
             message: "Created Project",
             project: result.rows
         });
+        // console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 }
 
 exports.updateProject = async (req, res, next) => {
@@ -75,7 +73,7 @@ exports.updateProject = async (req, res, next) => {
         project.content = content;
         project.deadline = deadline;
         project.projId = projId;
-        const result = await Project.updateProject(author, title, content, deadline, projId);
+        const result = await Project.updateProject(title, content, deadline, projId);
         res.status(200).json({
             message: 'Updated!',
             project: result.rows
@@ -84,8 +82,8 @@ exports.updateProject = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 }
 
 exports.deleteProject = async (req, res, next) => {
@@ -107,6 +105,6 @@ exports.deleteProject = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 }

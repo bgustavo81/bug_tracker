@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const bugRoutes = require('./routes/bugRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const userRoutes = require('./routes/userRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 app.use(bodyParser.json());
 
@@ -33,25 +34,15 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 require('./routes/surveyRoutes')(app);
 app.use('/', bugRoutes);
 app.use('/', commentRoutes);
 app.use('/', userRoutes);
-
-// app.get('/', (req, res, next) => {
-//     res.send({homepage: "hello"})
-// })
-
-
-app.use((error, req, res, next) => {
-    console.log("line 49 " + error);
-    const status = error.stateCode || 500;
-    const message = error.message;
-    const data = error.data;
-    res.status(status).json({ message: message, data: data });
-})
+app.use('/', projectRoutes);
 
 if (process.env.NODE_ENV === "production") {
     //express will serve up production assets like our //main.js file, or main.css file!!

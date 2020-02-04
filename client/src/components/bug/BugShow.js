@@ -1,11 +1,165 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Moment from 'react-moment';
+import 'moment-timezone';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchBug, fetchComments } from '../../actions/index';
+import Skeleton from '@material-ui/lab/Skeleton';
+import '../../styles/CommentShowStyles.css';
+import { Button } from '@material-ui/core';
+import SkeletonBlock from '../Skeleton';
 
-const BugShow = () => {
-    return (
-        <div>
-            BugShow
+class BugShow extends Component {
+    componentDidMount() {
+        this.props.fetchBug(this.props.match.params.bugId);
+        this.props.fetchComments();
+    }
+
+    renderAdmin(comm) {
+        const auth = this.props.auth;
+        switch(auth) {
+            case null:
+                return;
+            case false:
+                return (
+                    <React.Fragment />
+                )
+            default: 
+                if (comm.author === auth[0].user_id) {
+                    return (
+                        <div>
+                            { auth ? (
+                                <React.Fragment>
+                                    <Link to={`/comment/edit/${comm.comment_id}`} style={{ textDecoration: 'none' }}>
+                                        <Button color="primary">
+                                            Edit
+                                        </Button>
+                                    </Link>
+                                    <Link to={`/comment/delete/${comm.comment_id}`} style={{ textDecoration: 'none' }}>
+                                        <Button color="secondary">
+                                            Delete
+                                        </Button>
+                                    </Link>                 
+                                </React.Fragment>
+                            ) : <React.Fragment /> }
+                        </div>
+                    )
+                }
+        }
+    }
+
+    renderList() {
+        let comment = this.props.comm.flat();
+        let bugId = this.props.match.params.bugId;
+        bugId = parseInt(bugId);
+        comment = comment.filter(comm => comm.comment_id !== bugId);
+        return comment.map(comm => {
+            return (
+                <div key={comm.comment_id} className="ListCard">
+                <div>
+                    <h4 className="ListCardTitle">
+                    </h4>
+                    <div className="ProjectListCardContent">
+                        <p><b>Update:</b> {comm.content}</p>
+                        <p><b>Created:</b> <Moment date={comment.created} format="LLL"/></p>
+                    </div>
+                </div>
+ 
+                <div className="ListButtons">
+                    <Link to={`/comment/${comm.comment_id}`} style={{ textDecoration: 'none' }}>
+                        <Button >View</Button>
+                    </Link>
+                    {this.renderAdmin(comm)}
+                </div>
+            </div>
+            )
+        })
+    }
+
+    renderCreate() {
+        if (this.props.auth) {
+            return (
+                <div className="ListCreateButton">
+                    <Link to={`comment/new`} style={{ textDecoration: 'none'}}>
+                        <Button variant="outlined" color="primary">Create Bug</Button>
+                    </Link>
+                </div>
+            )
+        }
+    }
+
+    renderBug(bug) {
+        return (
+            <div className="ShowContainer">
+            { bug ? (
+            <React.Fragment>
+                <div className="ShowInfo">
+                    <h2 className="ShowTitle">{bug.bug_title}</h2>
+                        <p><b>Image:</b> image</p>
+                    <div className="ShowContent">
+                        <p><b>Priority:</b> {bug.priority}</p>
+                        <p><b>Status:</b> {bug.status}</p>
+                        <p><b>Description:</b> {bug.bug_desc}</p>
+                        <p><b>Deadline:</b> {bug.deadline}</p>
+                        <p><b>Created:</b> <Moment date={bug.created} format="LLL"/></p>
+                        <p><b>Author:</b> {bug.dev_email}</p>
+                    </div>
+
+                <div className="CommentShowLink">
+                    <Link to={`/project/${bug.project_id}`} style={{ textDecoration: 'none'}} >
+                    <Button variant="outlined" color="primary">Back</Button>
+                    </Link>
+                </div>
+            </div>
+            </React.Fragment>
+            ) : (
+            <div className="ShowSkeletonContainer">
+                <div>
+                    <Skeleton variant="text" height={240} />
+                    <Skeleton variant="rect" height={640} /> 
+                </div>
+            </div>
+            )}
         </div>
-    )
+        )
+    }
+
+    render() {
+        const [bug] = this.props.bug.flat();
+        console.log(bug);
+        return (
+            <div className="ListContainer">
+                <div className="ShowContainer">
+                    {this.renderBug(bug)}
+                </div>
+                { this.props.comm ? (
+                    <React.Fragment>
+                        <div className="ListCreateButton">
+                            {this.renderCreate()}
+                        </div>
+                        <div className="ListArticles">{this.renderList()}</div>
+                        <div className="ListCreateButton">
+                            {this.renderCreate()}
+                        </div>                    
+                    </React.Fragment>
+                ) : (
+                    <SkeletonBlock />
+                )}
+            </div>
+        )
+    }
 }
 
-export default BugShow
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        comm: Object.values(state.comm),
+        bug: Object.values(state.bug),
+        auth: state.auth
+    }
+}
+
+export default connect (
+    mapStateToProps,
+    { fetchBug, fetchComments }
+)(BugShow)

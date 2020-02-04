@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
@@ -44,29 +44,29 @@ class App extends Component {
                         <Route path='/' exact component={Landing} />
                         <Route path='/signin' exact component={SignIn} />
                         
-                        <Route path='/bugs' exact component={BugList} />
-                        <Route path='/bug/:bugId' exact component={BugShow} />
-                        <Route path='/bug/new' exact component={BugCreate} />
+                        <Route path='/bug/new/:projId' exact component={BugCreate} />
                         <Route path='/bug/update/:bugId' exact component={BugUpdate} />
                         <Route path='/bug/delete/:bugId' exact component={BugDelete} />
+                        <Route path='/bugs' exact component={BugList} />
+                        <Route path='/bug/:bugId' exact component={BugShow} />
 
-                        <Route path='/comments' exact component={CommentList} />
-                        <Route path='/comment/:commentId' exact component={CommentShow} />
                         <Route path='/comment/new' exact component={CommentCreate} />
                         <Route path='/comment/update/:commentId' exact component={CommentUpdate} />
                         <Route path='/comment/delete/:commentId' exact component={CommentDelete} />  
+                        <Route path='/comments' exact component={CommentList} />
+                        <Route path='/comment/:commentId' exact component={CommentShow} />
 
-                        <Route path='/projects' export component={ProjectList} />
-                        <Route path='/project/:projId' exact component={ProjectShow} />
                         <Route path='/project/new' exact component={ProjectCreate} />
                         <Route path='/project/update/:projId' exact component={ProjectUpdate} />
                         <Route path='/project/delete/:projId' exact component={ProjectDelete} />
+                        <Route path='/projects' export component={ProjectList} />
+                        <Route path='/project/:projId' exact component={ProjectShow} />
 
-                        <Route path='/users' exact component={UserList} />
-                        <Route path='/user:/:userId' exact component={UserShow} />
                         <Route path='/user/new' exact component={UserCreate} />
                         <Route path='/user/update/:userId' exact component={UserUpdate} />
                         <Route path='/user/delete/:userId' exact component={UserDelete} />
+                        <Route path='/users' exact component={UserList} />
+                        <Route path='/user:/:userId' exact component={UserShow} />
                     </Switch>
                     <Footer />
                 </div>

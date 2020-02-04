@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createBug } from '../../actions';
+import BugForm from './BugForm';
+import "../../styles/FormStyles.css"
 
-const BugCreate = () => {
-    return (
-        <div>
-            BugCreate
-        </div>
-    )
-};
+class BugCreate extends Component {
+    onSubmit = (formValues) => {
+        let projId = this.props.match.params.projId;
+        projId = parseInt(projId);
+        this.props.createBug(formValues, projId);
+    }
+    
+    render() {
+        return (
+            <div>
+                <h3 className="FormTitle">Create Bug</h3>
+                <BugForm onSubmit={this.onSubmit} />
+            </div>
+        )
+    }
+}
 
-export default BugCreate;
+
+
+export default connect(
+    null, 
+    { createBug }
+)(BugCreate);

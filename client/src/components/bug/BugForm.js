@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import { Button } from "@material-ui/core";
-import "../../styles/BugFormStyles.css";
+import "../../styles/FormStyles.css";
 
 const validate = values => {
     const errors = {};
@@ -39,7 +39,7 @@ const renderTextField = ({
         label={label}
         placeholder={label}
         error={touched && invalid}
-        helpertext = {touched && error}
+        helperText={touched && error}
         {...input}
         {...custom}
     />
@@ -72,7 +72,7 @@ const renderFromHelper = ({ touched, error }) => {
     }
   };
   
-const renderSelectField = ({
+const renderSelectFieldPriority = ({
     input,
     label,
     meta: { touched, error },
@@ -80,7 +80,31 @@ const renderSelectField = ({
     ...custom
   }) => (
     <FormControl error={touched && error}>
-      <InputLabel htmlFor="status-native-simple">Age</InputLabel>
+      <InputLabel htmlFor="status-native-simple">Priority</InputLabel>
+      <Select
+        native
+        {...input}
+        {...custom}
+        inputProps={{
+          name: 'status',
+          id: 'status-native-simple'
+        }}
+      >
+        {children}
+      </Select>
+      {renderFromHelper({ touched, error })}
+    </FormControl>
+  )
+
+  const renderSelectFieldStatus = ({
+    input,
+    label,
+    meta: { touched, error },
+    children,
+    ...custom
+  }) => (
+    <FormControl error={touched && error}>
+      <InputLabel htmlFor="status-native-simple">Status</InputLabel>
       <Select
         native
         {...input}
@@ -97,23 +121,23 @@ const renderSelectField = ({
   )
 
 
-const CommentForm = props => {
+const BugForm = props => {
     const { handleSubmit, pristine, reset, submitting, classes } = props;
     return (
-        <form onSubmit={handleSubmit} className="BugForm">
+        <form onSubmit={handleSubmit} className="Form">
         <div>
         <div>
             <Field
                 name="bugTitle"
                 component={renderTextField}
-                label="Bug Title"
+                label="Title"
             />
         </div>
         <div>
             <Field 
                 name="bugDesc"
                 component={renderDescField}
-                label="Bug Description"
+                label="Description"
                 multiline
                 rowsMax="6"
             />
@@ -121,7 +145,7 @@ const CommentForm = props => {
             <Field
             classes={classes}
             name="priority"
-            component={renderSelectField}
+            component={renderSelectFieldPriority}
             label="Priority"
             >
             <option value="" />
@@ -136,11 +160,11 @@ const CommentForm = props => {
             <Field
             classes={classes}
             name="status"
-            component={renderSelectField}
+            component={renderSelectFieldStatus}
             label="Status"
             >
             <option value="" />
-            <option value={'Compeleted'}>Compeleted</option>
+            <option value={'Compeleted'}>Completed</option>
             <option value={'Almost Resolved'}>Almost Resolved</option>
             <option value={'Moderate Progess'}>Moderate Progess</option>
             <option value={'Untouched'}>Untouched</option>
@@ -164,7 +188,7 @@ const CommentForm = props => {
             <Field
                 name="devEmail"
                 component={renderTextField}
-                label="Title"
+                label="Assigned Dev (e.i. example@gmail.com)"
             />
         </div>
         <Button
@@ -183,7 +207,7 @@ const CommentForm = props => {
                 onClick={reset}>
                 Reset
             </Button>
-            <Link to='/bugs' style={{ textDecoration: "none" }}>
+            <Link to='/projects' style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>
@@ -195,7 +219,7 @@ const CommentForm = props => {
 export default reduxForm({
     form: "bugForm",
     validate: validate
-})(PostForm);
+})(BugForm);
 
 
 
