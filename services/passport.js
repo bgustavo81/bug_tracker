@@ -17,33 +17,32 @@ passport.use(
           });
         }
     )
-
-    new GoogleStrategy({
-        clientID: keys.googleClientID,
-        clientSecret: keys.googleClientSecret,
-        callbackURL: '/auth/google/callback',
-        proxy: true
-    }, async (accessToken, refreshToken, profile, done) => {
-        const userId = profile.id;
-        const firstName = profile.name.familyName;
-        const lastName = profile.name.givenName;
-        const email = profile.emails[0].value;
+    // new GoogleStrategy({
+    //     clientID: keys.googleClientID,
+    //     clientSecret: keys.googleClientSecret,
+    //     callbackURL: '/auth/google/callback',
+    //     proxy: true
+    // }, async (accessToken, refreshToken, profile, done) => {
+    //     const userId = profile.id;
+    //     const firstName = profile.name.familyName;
+    //     const lastName = profile.name.givenName;
+    //     const email = profile.emails[0].value;
         
-        const user = await User.getUser(userId)
-            if (user.rowCount === 1) {
-                console.log(user);
-                console.log("line 20 we have a user: " + user.rows[0].user_id);
-                // we have a record of a user
-                done(null, user.rows[0].user_id);
-            } else {
-                console.log("createUser");
-                // we have to record a new user
-                let user = await new User(userId, firstName, lastName, email);
-                user = user.createUser();
-                console.log(userId);
-                done(null, userId);
-            }
-        })
+    //     const user = await User.getUser(userId)
+    //         if (user.rowCount === 1) {
+    //             console.log(user);
+    //             console.log("line 20 we have a user: " + user.rows[0].user_id);
+    //             // we have a record of a user
+    //             done(null, user.rows[0].user_id);
+    //         } else {
+    //             console.log("createUser");
+    //             // we have to record a new user
+    //             let user = await new User(userId, firstName, lastName, email);
+    //             user = user.createUser();
+    //             console.log(userId);
+    //             done(null, userId);
+    //         }
+    //     })
     );
 
     // passport.use(new FacebookStrategy({
