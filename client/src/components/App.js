@@ -26,6 +26,7 @@ import ProjectDelete from './project/ProjectDelete';
 import Header from './Header';
 import Landing from './Landing';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import Footer from './Footer';
 import history from '../history';
 
@@ -43,6 +44,7 @@ class App extends Component {
                     <Switch>
                         <Route path='/' exact component={Landing} />
                         <Route path='/signin' exact component={SignIn} />
+                        <Route path='/signup' exact component={SignUp} />
                         
                         <Route path='/bug/new/:projId' exact component={BugCreate} />
                         <Route path='/bug/update/:bugId' exact component={BugUpdate} />
@@ -50,7 +52,7 @@ class App extends Component {
                         <Route path='/bugs' exact component={BugList} />
                         <Route path='/bug/:bugId' exact component={BugShow} />
 
-                        <Route path='/comment/new' exact component={CommentCreate} />
+                        <Route path='/comment/new/:bugId' exact component={CommentCreate} />
                         <Route path='/comment/update/:commentId' exact component={CommentUpdate} />
                         <Route path='/comment/delete/:commentId' exact component={CommentDelete} />  
                         <Route path='/comments' exact component={CommentList} />
@@ -66,7 +68,7 @@ class App extends Component {
                         <Route path='/user/update/:userId' exact component={UserUpdate} />
                         <Route path='/user/delete/:userId' exact component={UserDelete} />
                         <Route path='/users' exact component={UserList} />
-                        <Route path='/user:/:userId' exact component={UserShow} />
+                        <Route path='/user/:userId' exact component={UserShow} />
                     </Switch>
                     <Footer />
                 </div>

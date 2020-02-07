@@ -1,11 +1,12 @@
 const pool = require('../services/pool');
 
 module.exports = class Comment {
-    constructor(commentId, userId, content, bugId) {
+    constructor(commentId, userId, content, bugId, email) {
         this.commentId = commentId;
         this.userId = userId;
         this.content = content;
         this.bugId = bugId;
+        this.email = email;
     }
 
     static getComment(commentId) {
@@ -17,15 +18,15 @@ module.exports = class Comment {
 
     static getComments() {
         return pool.query(
-            'SELECT * FROM comments ORDER BY comment_id DESC'
+            'SELECT * FROM comments'
         )
     }
 
     createComment() {
         return pool.query(
-            `INSERT INTO comments (author, content, bug_id)
-                VALUES ($1, $2, $3)`,
-            [this.userId, this.content, this.bugId]
+            `INSERT INTO comments (author, author_email, content, bug_id)
+                VALUES ($1, $2, $3, $4)`,
+            [this.userId, this.email, this.content, this.bugId]
         )
     }
 

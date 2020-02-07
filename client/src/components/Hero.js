@@ -10,7 +10,7 @@ const Hero = () => {
                 <div className='HeroTextContainer'>
                     <h1 className="HeroTitle">Let's track that bug.</h1>
                 <Link 
-                    to='/signup'
+                    to='/signin'
                     style={{ textDecoration: 'none'}}
                     className='HeroLink'
                 >

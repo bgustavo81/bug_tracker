@@ -58,6 +58,8 @@ const renderTextContentField = ({
 
 const ProjectForm = props => {
     const { handleSubmit, pristine, reset, submitting } = props;
+    console.log(props.initialValues);
+
     return (
         <form onSubmit={handleSubmit} autoComplete="off" className="Form">
             <div>

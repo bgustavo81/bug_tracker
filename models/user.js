@@ -29,10 +29,10 @@ module.exports = class User {
         )
     }
 
-    static updateUser(firstName, lastName, email, userId) {
+    static updateUser(firstName, lastName, email, username, userId) {
         return pool.query(
-            `UPDATE users SET first_name = $1, last_name = $2, email = 3 WHERE user_id = $4`,
-            [firstName, lastName, email, userId]
+            `UPDATE users SET first_name = $1, last_name = $2, email = $3, username=$4 WHERE user_id = $5`,
+            [firstName, lastName, email, username, userId]
         )
     }
 

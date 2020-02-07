@@ -12,13 +12,13 @@ import "../../styles/FormStyles.css";
 const validate = values => {
     const errors = {};
     const requiredFields = [
-        'bugTitle',
+        'bug_title',
         'priority',
         'status',
-        'bugDesc',
+        'bug_desc',
         'image',
         'deadline',
-        'devEmail'
+        'dev_email'
     ];
     requiredFields.forEach(field => {
         if(!values[field]) {
@@ -122,20 +122,21 @@ const renderSelectFieldPriority = ({
 
 
 const BugForm = props => {
-    const { handleSubmit, pristine, reset, submitting, classes } = props;
+    const { handleSubmit, pristine, reset, submitting, classes, bug } = props;
+    console.log(bug);
     return (
         <form onSubmit={handleSubmit} className="Form">
         <div>
         <div>
             <Field
-                name="bugTitle"
+                name="bug_title"
                 component={renderTextField}
                 label="Title"
             />
         </div>
         <div>
             <Field 
-                name="bugDesc"
+                name="bug_desc"
                 component={renderDescField}
                 label="Description"
                 multiline
@@ -186,7 +187,7 @@ const BugForm = props => {
         </div>
         <div>
             <Field
-                name="devEmail"
+                name="dev_email"
                 component={renderTextField}
                 label="Assigned Dev (e.i. example@gmail.com)"
             />
@@ -207,7 +208,7 @@ const BugForm = props => {
                 onClick={reset}>
                 Reset
             </Button>
-            <Link to='/projects' style={{ textDecoration: "none" }}>
+            <Link to={`/project/${bug.project_id}`} style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>

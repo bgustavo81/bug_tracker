@@ -15,29 +15,41 @@ class BugUpdate extends React.Component {
         this.props.updateBug(this.props.match.params.bugId, formValues);
     }
 
-    render() {
-        let bug = this.props.bug;
-        if (!bug) {
+    renderForm(bug) {
+        if (bug && Array.isArray(bug)) {
+            [bug] = bug;
+            console.log(bug);
             return (
-                <div className="ShowSkeletonContainer">
-                    <div>
-                        <Skeleton variant="text" height={240} />
-                        <Skeleton variant="rect" height={640} /> 
-                    </div>
+                <div>
+                    <h3 className="FormTitle">Edit your bug</h3>
+                    <BugForm 
+                        initialValues={bug}
+                        onSubmit={this.onSubmit} 
+                        bug={bug}
+                    />
                 </div>
             )
+        } else {
+            return (
+            <div className="ShowSkeletonContainer">
+                <div>
+                    <Skeleton variant="text" height={240} />
+                    <Skeleton variant="rect" height={640} /> 
+                </div>
+            </div>
+            );
         }
-        let items = _.pick(bug, 'title', 'content');
-        console.log(items);
+    }
+
+    render() {
+        let bug = this.props.bug;
+        console.log(bug);
+
         return (
-        <div>
-            <h3 className="FormTitle">Edit your bug</h3>
-            <BugForm 
-                initialValues={items}
-                onSubmit={this.onSubmit} 
-            />
-        </div>
-        );
+            <div>
+                {this.renderForm(bug)}
+            </div>
+        )
     }
 }
 

@@ -95,10 +95,7 @@ class ProjectList extends Component {
                         <div className="ListCreateButton">
                             {this.renderCreate()}
                         </div>
-                        <div className="ListArticles">{this.renderList()}</div>
-                        <div className="ListCreateButton">
-                            {this.renderCreate()}
-                        </div>                    
+                        <div className="ListArticles">{this.renderList()}</div>              
                     </React.Fragment>
                 ) : (
                     <SkeletonBlock />

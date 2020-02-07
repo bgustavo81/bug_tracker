@@ -4,7 +4,7 @@ exports.getBug = async (req, res, next) => {
     let bugId = req.params.bugId;
     try {
         const result = await Bug.getBug(bugId);
-        let status = res.status(200).json({
+        res.status(200).json({
             message: `message ${bugId} was retrieved`,
             bug: result.rows
         });
@@ -32,14 +32,14 @@ exports.getBugs = async (req, res, next) => {
 };
 
 exports.createBug = async (req, res, next) => {
-    const bugTitle = req.body.bugTitle;
+    const bugTitle = req.body.bug_title;
     const priority = req.body.priority;
     const status = req.body.status;
-    const bugDesc = req.body.bugDesc;
+    const bugDesc = req.body.bug_desc;
     const image = req.body.image;
     const deadline = req.body.deadline;
     const author = req.body.author;
-    const devEmail = req.body.devEmail;
+    const devEmail = req.body.dev_email;
     const projId = req.body.projId;
 
     const bug = new Bug(
@@ -69,14 +69,13 @@ exports.createBug = async (req, res, next) => {
 };
 
 exports.updateBug = async (req, res, next) => {
-    const bugTitle = req.body.bugTitle;
+    const bugTitle = req.body.bug_title;
     const priority = req.body.priority;
     const status = req.body.status;
-    const bugDesc = req.body.bugDesc;
+    const bugDesc = req.body.bug_desc;
     const image = req.body.image;
     const deadline = req.body.deadline;
-    const author = req.body.author;
-    const devEmail = req.body.devEmail;
+    const devEmail = req.body.dev_email;
     const bugId = req.params.bugId;
     try {
         const bug = await Bug.getBug(bugId);
@@ -95,16 +94,6 @@ exports.updateBug = async (req, res, next) => {
             devEmail,
             bugId
         );
-        console.log(
-            bugTitle,
-            priority,
-            status,
-            bugDesc,
-            image,
-            deadline,
-            devEmail,
-            bugId
-        )
         res.status(200).json({
             message: "Updated!",
             bug: result.rows

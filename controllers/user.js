@@ -13,8 +13,8 @@ exports.getUser = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 }
 
 exports.getUsers = async (req, res, next) => {
@@ -59,9 +59,10 @@ exports.createUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
     const userId = req.params.userId;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const firstName = req.body.first_name;
+    const lastName = req.body.last_name;
     const email = req.body.email;
+    const username = req.body.username;
     try {
         const user = await User.getUser(userId);
         if (!user) {
@@ -72,7 +73,7 @@ exports.updateUser = async (req, res, next) => {
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
-        const result = await User.updateUser(firstName, lastName, email, userId);
+        const result = await User.updateUser(firstName, lastName, email, username, userId);
         res.status(200).json({
             message: "Updated User!",
             user: result.rows

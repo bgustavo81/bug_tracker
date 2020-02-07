@@ -20,10 +20,11 @@ class Header extends Component {
             <div className="link trackerly">
             <Link to='/' className='link parkly'>Bug Trackerly</Link>              
             </div>              
-            <a href="/auth/google"><Button variant="contained" color="secondary">SignIn G+</Button></a>
+            <Link to='/signin'><Button variant="contained" color="secondary">SignIn</Button></Link>
           </React.Fragment>
         )
       default: 
+      const auth = this.props.auth.auth[0].user_id;
         return (
           <React.Fragment>
             <IconButton edge="start">
@@ -33,14 +34,13 @@ class Header extends Component {
               <Link to='/' className='link parkly'>Bug Trackerly</Link>              
             </div>
             <div className="dropdown">
-                <Link to='/user/:id' className="dropBtn" style={{ textDecoration: "none", color: "white" }}>
+                <Link to={`/user/${auth}`} className="dropBtn" style={{ textDecoration: "none", color: "white" }}>
                     <AccountCircleIcon fontSize="large" />
                 </Link>
                 <div className="dropdownContent">
-                    <p>Credits: {this.props.auth.auth[0].credits}</p>
                     <Payments />
                     <Link to='/bugs' style={{ textDecoration: "none", color: "white" }}>My Bugs</Link>
-                    <Link to='/user/:id' style={{ textDecoration: "none", color: "white" }}>Account</Link>
+                    <Link to={`/user/${auth}`} style={{ textDecoration: "none", color: "white" }}>Account</Link>
                     <a href="api/logout" style={{ textDecoration: "none", color: "white" }}>Logout</a>
                 </div>
             </div>

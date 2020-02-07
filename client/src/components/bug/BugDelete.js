@@ -12,7 +12,7 @@ class BugDelete extends React.Component {
         this.props.fetchBug(this.props.match.params.bugId);
     }
 
-    renderActions() {
+    renderActions(bug) {
         const bugId = this.props.match.params.bugId;
         return (
             <div className="DeleteButtons">
@@ -24,7 +24,7 @@ class BugDelete extends React.Component {
                 >
                     Delete
                 </Button>
-                <Link to='/project' style={{ textDecoration: "none" }}>
+                <Link to={`/project/${bug.project_id}`} style={{ textDecoration: "none" }}>
                     <Button variant="outlined" size="large">
                         Cancel
                     </Button>
@@ -33,23 +33,22 @@ class BugDelete extends React.Component {
         );
     }
 
-    renderContent() {
-        let bug = this.props.bug;
-        console.log(bug);
-        if (!this.props.bug) {
-            return `Are you sure you want to delete this bug?`
-        }
-        [bug] = bug;
+    renderContent(bug) {
         return `Are you sure you want to delete the Bug with title "${bug.bug_title}"`
     }
 
     render() {
+        let bug = this.props.bug;
+        if (!bug) {
+            return <div className="DeleteModalContainer"></div>
+        }
+        [bug] = bug;
         return (
             <DeleteBugModal
                 title="Delete bug"
-                content={this.renderContent()}
-                actions={this.renderActions()}
-                onDismiss={() => history.push('/projects')}
+                content={this.renderContent(bug)}
+                actions={this.renderActions(bug)}
+                onDismiss={() => history.push(`/project/${bug.project_id}`)}
             />
         );  
     };

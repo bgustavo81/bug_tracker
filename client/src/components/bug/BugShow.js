@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchBug, fetchComments } from '../../actions/index';
 import Skeleton from '@material-ui/lab/Skeleton';
-import '../../styles/CommentShowStyles.css';
 import { Button } from '@material-ui/core';
 import SkeletonBlock from '../Skeleton';
 
@@ -30,7 +29,7 @@ class BugShow extends Component {
                         <div>
                             { auth ? (
                                 <React.Fragment>
-                                    <Link to={`/comment/edit/${comm.comment_id}`} style={{ textDecoration: 'none' }}>
+                                    <Link to={`/comment/update/${comm.comment_id}`} style={{ textDecoration: 'none' }}>
                                         <Button color="primary">
                                             Edit
                                         </Button>
@@ -62,13 +61,10 @@ class BugShow extends Component {
                     <div className="ProjectListCardContent">
                         <p><b>Update:</b> {comm.content}</p>
                         <p><b>Created:</b> <Moment date={comment.created} format="LLL"/></p>
+                        <p><b>Author:</b> {comm.author_email}</p>
                     </div>
                 </div>
- 
                 <div className="ListButtons">
-                    <Link to={`/comment/${comm.comment_id}`} style={{ textDecoration: 'none' }}>
-                        <Button >View</Button>
-                    </Link>
                     {this.renderAdmin(comm)}
                 </div>
             </div>
@@ -77,11 +73,12 @@ class BugShow extends Component {
     }
 
     renderCreate() {
+        const bugId = this.props.match.params.bugId;
         if (this.props.auth) {
             return (
                 <div className="ListCreateButton">
-                    <Link to={`comment/new`} style={{ textDecoration: 'none'}}>
-                        <Button variant="outlined" color="primary">Create Bug</Button>
+                    <Link to={`/comment/new/${bugId}`} style={{ textDecoration: 'none'}}>
+                        <Button variant="outlined" color="primary">Comment</Button>
                     </Link>
                 </div>
             )
@@ -134,9 +131,6 @@ class BugShow extends Component {
                 </div>
                 { this.props.comm ? (
                     <React.Fragment>
-                        <div className="ListCreateButton">
-                            {this.renderCreate()}
-                        </div>
                         <div className="ListArticles">{this.renderList()}</div>
                         <div className="ListCreateButton">
                             {this.renderCreate()}

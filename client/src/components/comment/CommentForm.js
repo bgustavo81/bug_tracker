@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-import "../../styles/CommentForm.css";
+import "../../styles/FormStyles.css";
 
 const validate = values => {
     const errors = {};
@@ -36,9 +36,9 @@ const renderTextContentField = ({
 )
 
 const CommentForm = props => {
-    const { handleSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, pristine, reset, submitting, comm } = props;
     return (
-        <form onSubmit={handleSubmit} autoComplete="off" className="CommentForm">
+        <form onSubmit={handleSubmit} autoComplete="off" className="Form">
             <div>
                 <Field 
                     name="content"
@@ -62,7 +62,7 @@ const CommentForm = props => {
                 onClick={reset}>
                 Reset
             </Button>
-            <Link to='/projects' style={{ textDecoration: "none" }}>
+            <Link to={`/bug/${comm[0].bug_id}`} style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>

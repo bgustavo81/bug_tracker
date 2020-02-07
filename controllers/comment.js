@@ -29,19 +29,18 @@ exports.getComments = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 }
 
 exports.createComment = async (req, res, next) => {
-    const userId = req.body.userId;
+    const userId = req.body.author;
+    const email = req.body.authorEmail;
     const content = req.body.content;
     const bugId = req.body.bugId;
-    const comment = new Comment(userId, content, bugId);
+    const comment = new Comment(null, userId, content, bugId, email);
+    console.log(comment);
     try {
-        comment.userId = userId;
-        comment.content = content;
-        comment.bugId = bugId;
         const result = await comment.createComment();
         res.status(201).json({
             message: "Created post!",
@@ -65,8 +64,6 @@ exports.updateComment = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        comment.commentId = commentId;
-        comment.content = content;
         const result = await Comment.updateComment(content, commentId);
         res.status(200).json({
             message: "Updated!",

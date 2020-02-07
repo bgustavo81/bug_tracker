@@ -3,14 +3,14 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-import "../../styles/FormStyles.css";
+import "../styles/SignInStyles.css";
+
 
 const validate = values => {
     const errors = {};
     const requiredFields = [
-        'first_name',
-        'last_name',
-        'email'
+        'email',
+        'password'
     ]
     requiredFields.forEach(field => {
         if(!values[field]) {
@@ -37,31 +37,45 @@ const renderTextField = ({
     />
 )
 
+const renderTextContentField = ({
+    input,
+    label,
+    meta: { touched, invalid, error },
+    ...custom
+}) => (
+    <TextField
+        id="standard-multiline-flexible"
+        multiline
+        rowsMax="6"
+        label={label}
+        placeholder={label}
+        error={touched && invalid}
+        helperText={touched && error}
+        {...input}
+        {...custom}
+    />
+);
 
-const UserForm = props => {
+const ProjectForm = props => {
     const { handleSubmit, pristine, reset, submitting } = props;
+    console.log(props.initialValues);
 
     return (
-        <form onSubmit={handleSubmit} autoComplete="off" className="Form">
-            <div>
-                <Field 
-                    name="first_name"
-                    component={renderTextField}
-                    label="First Name"
-                />
-            </div>
-            <div>
-                <Field 
-                    name="last_name"
-                    component={renderTextField}
-                    label="Last Name"
-                />
-            </div>
+        <form onSubmit={handleSubmit} autoComplete="off" className="SignInForm">
             <div>
                 <Field 
                     name="email"
                     component={renderTextField}
                     label="Email"
+                />
+            </div>
+            <div>
+                <Field 
+                    name="password"
+                    component={renderTextContentField}
+                    label="Password"
+                    multiline
+                    rowsMax="6"
                 />
             </div>
             <Button
@@ -73,13 +87,6 @@ const UserForm = props => {
                 >
                 Submit
             </Button>
-            <Button 
-                variant="outlined"
-                size="large" 
-                disabled={pristine || submitting} 
-                onClick={reset}>
-                Reset
-            </Button>
             <Link to='/projects' style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
@@ -90,6 +97,6 @@ const UserForm = props => {
 }
 
 export default reduxForm({
-    form: 'userForm',
+    form: 'projectForm',
     validate: validate
-})(UserForm);
+})(ProjectForm);

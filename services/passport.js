@@ -1,9 +1,23 @@
 const passport = require('passport');
+const LocalStrategy = passport(passport-local).Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const keys = require('../config/keys');
 const User = require('../models/user');
 
 passport.use(
+    new LocalStrategy(
+        function(username, password, done) {
+          User.findOne({ username: username }, function (err, user) {
+            if (err) { return done(err); }
+            if (!user) { return done(null, false); }
+            if (!user.verifyPassword(password)) { return done(null, false); }
+            return done(null, user);
+          });
+        }
+    )
+
     new GoogleStrategy({
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
@@ -31,6 +45,40 @@ passport.use(
             }
         })
     );
+
+    // passport.use(new FacebookStrategy({
+    //     clientID: FACEBOOK_APP_ID,
+    //     clientSecret: FACEBOOK_APP_SECRET,
+    //     callbackURL: "auth/facebook/callback",
+    //     proxy: true
+    //   }, async (accessToken, refreshToken, profile, done) => {
+    //     // find a way to query the profile to DB
+    //     User.findOrCreate(..., function(err, user) {
+    //       if (err) { return done(err); }
+    //       done(null, user);
+    //     });
+    //   }
+    // ));
+
+    // passport.use(
+    //     new TwitterStrategy({
+    //     consumerKey: keys.twitterApiKey,
+    //     consumerSecret: keys.twitterApiKey,
+    //     callbackURL: "auth/twitter/callback",
+    //     proxy: true
+    //   }, async (token, tokenSecret, profile, done) => {
+    //     profile = profile;
+    //     // get other relevant information
+        
+    //     // find a way to query the info into the DB
+
+    //     User.findOrCreate(..., function(err, user) {
+    //         if (err) { return done(err); }
+    //         done(null, user);
+    //       });
+
+    //   }
+    // ));
     
     
     passport.serializeUser(async (user, done) => {

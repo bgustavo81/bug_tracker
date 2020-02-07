@@ -46,7 +46,7 @@ export const handleToken = token => async dispatch => {
 export const fetchUser = (userId) => async dispatch => {
     const response = await server.get(`/user/${userId}`);
 
-    dispatch({ type: FETCH_USER, payload: response.data });
+    dispatch({ type: FETCH_USER, payload: response.data.user[0] });
 };
 
 export const fetchUsers = () => async dispatch => {
@@ -66,10 +66,10 @@ export const createUser = (formValues) => async (dispatch, getState) => {
 }
 
 export const updateUser = (userId, formValues) => async dispatch => {
-    const response = await server.patch(`/user/${userId}`, formValues);
+    const response = await server.patch(`/user/${userId}`, formValues, userId);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
-    history.push('/users');
+    history.push(`/user/${userId}`);
 }
 
 export const deleteUser = (userId) => async dispatch => {
@@ -83,7 +83,6 @@ export const deleteUser = (userId) => async dispatch => {
 
 export const fetchProject = (projId) => async dispatch => {
     const response = await server.get(`/project/${projId}`);
-    console.log(response.data.projects[0]);
     
     dispatch({ type: FETCH_PROJECT, payload: response.data.projects[0] });
 }
@@ -91,7 +90,6 @@ export const fetchProject = (projId) => async dispatch => {
 export const fetchProjects = () => async dispatch => {
     const response = await server.get('/projects');
 
-    console.log(response.data.projects)
     dispatch({ type: FETCH_PROJECTS, payload: response.data.projects });
 };
 
@@ -107,7 +105,6 @@ export const createProject = (formValues) => async (dispatch, getState) => {
 export const updateProject = (projId, formValues) => async dispatch => {
     const response = await server.patch(`/project/${projId}`, formValues);
 
-    console.log(response.data);
 
     dispatch({ type: UPDATE_PROJECT, payload: response.data });
     history.push(`/project/${projId}`);
@@ -124,7 +121,6 @@ export const deleteProject = (projId) => async dispatch => {
 
 export const fetchBug = (bugId) => async dispatch => {
     const response = await server.get(`/bug/${bugId}`);
-    console.log(response.data.bug);
 
     dispatch({ type: FETCH_BUG, payload: response.data.bug });
 };
@@ -144,11 +140,13 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
     history.push(`/project/${projId}`);
 };
 
-export const updateBug = (bugId, formValues) => async dispatch => {
+export const updateBug = (bugId, formValues) => async (dispatch, getState) => {
     const response = await server.patch(`/bug/${bugId}`, formValues);
+    let projId = getState().bug.undefined[0].project_id;
+    console.log(projId)
 
     dispatch({ type: UPDATE_BUG, payload: response.data });
-    history.push(`/projects`);
+    history.push(`/project/${projId}`);
 };
 
 export const deleteBug = (bugId) => async dispatch => {
@@ -163,7 +161,7 @@ export const deleteBug = (bugId) => async dispatch => {
 export const fetchComment = (commId) => async dispatch => {
     const response = await server.get(`/comment/${commId}`);
 
-    dispatch({ type: FETCH_COMMENT, payload: response.data });
+    dispatch({ type: FETCH_COMMENT, payload: response.data.comment });
 };
 
 export const fetchComments = () => async dispatch => {
@@ -172,25 +170,29 @@ export const fetchComments = () => async dispatch => {
     dispatch({ type: FETCH_COMMENTS, payload: response.data });
 };
 
-export const createComment = (formValues) => async (dispatch, getState) => {
+export const createComment = (formValues, bugId) => async (dispatch, getState) => {
     // getState for auth object
-    const { userId } = getState().auth;
-    const response = await server.post('/comment', { ...formValues, userId });
+    let author = getState().auth[0].user_id;
+    let authorEmail = getState().auth[0].email;
+    const response = await server.post('/comment', { ...formValues, author, authorEmail, bugId });
 
     dispatch({ type: CREATE_COMMENT, payload: response.data });
-    history.push('/comments');
+    history.push(`/bug/${bugId}`);
 }
 
-export const updateComment = (commId, formValues) => async dispatch => {
-    const response = await server.patch(`/comment/${commId}`, formValues);
+export const updateComment = (commentId, formValues) => async (dispatch, getState) => {
+    const response = await server.patch(`/comment/${commentId}`, formValues);
+    let bugId = getState().comm.undefined.comment[0].bug_id;
 
     dispatch({ type: UPDATE_COMMENT, payload: response.data });
-    history.push('/comments');
+    history.push(`/bug/${bugId}`);
 };
 
-export const deleteComments = (commId) => async dispatch => {
-    await server.delete(`/comment/${commId}`);
+export const deleteComment = (commentId) => async (dispatch, getState) => {
+    let bugId = getState().comm.undefined[0].bug_id;
+    await server.delete(`/comment/${commentId}`);
 
-    dispatch({ type: DELETE_COMMENT, payload: commId });
-    history.push('/comments');
+
+    dispatch({ type: DELETE_COMMENT, payload: commentId });
+    history.push(`/bug/${bugId}`);
 }
