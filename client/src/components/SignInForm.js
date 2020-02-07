@@ -57,7 +57,7 @@ const renderTextContentField = ({
 );
 
 const ProjectForm = props => {
-    const { handleSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, pristine, submitting } = props;
     console.log(props.initialValues);
 
     return (
