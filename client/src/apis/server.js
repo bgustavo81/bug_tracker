@@ -1,5 +1,14 @@
 import axios from 'axios';
 
+let baseURL;
+
+if (process.env.NODE_ENV === "production") {
+    baseURL = 'https://bugtrackerly.herokuapp.com/';
+} else {
+    baseURL = 'http://localhost:5000';
+}
+
+console.log(baseURL);
 export default axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: baseURL
 });
