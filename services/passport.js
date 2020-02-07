@@ -1,5 +1,5 @@
 const passport = require('passport');
-const LocalStrategy = passport(passport-local).Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
