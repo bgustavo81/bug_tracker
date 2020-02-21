@@ -122,11 +122,9 @@ const renderSelectFieldPriority = ({
 
 
 const BugForm = props => {
-    const { handleSubmit, pristine, reset, submitting, classes, bug } = props;
-    console.log(bug);
+    const { handleSubmit, pristine, reset, submitting, classes, projId } = props;
     return (
         <form onSubmit={handleSubmit} className="Form">
-        <div>
         <div>
             <Field
                 name="bug_title"
@@ -143,6 +141,7 @@ const BugForm = props => {
                 rowsMax="6"
             />
         </div>
+        <div>
             <Field
             classes={classes}
             name="priority"
@@ -208,7 +207,7 @@ const BugForm = props => {
                 onClick={reset}>
                 Reset
             </Button>
-            <Link to={`/project/${bug.project_id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/project/${projId}`} style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>

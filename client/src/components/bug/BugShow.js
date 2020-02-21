@@ -7,6 +7,8 @@ import { fetchBug, fetchComments } from '../../actions/index';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Button } from '@material-ui/core';
 import SkeletonBlock from '../Skeleton';
+import '../../styles/ProjectShowStyles.css';
+
 
 class BugShow extends Component {
     componentDidMount() {

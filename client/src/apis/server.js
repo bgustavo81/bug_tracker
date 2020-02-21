@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// axios.defaults.withCredentials = true;
 let baseURL;
 
 if (process.env.NODE_ENV === "production") {
@@ -10,5 +11,5 @@ if (process.env.NODE_ENV === "production") {
 
 console.log(baseURL);
 export default axios.create({
-    baseURL: baseURL
+    baseURL: baseURL,
 });

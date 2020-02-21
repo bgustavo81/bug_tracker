@@ -1,4 +1,5 @@
 const Bug  = require('../models/bug');
+const User = require('../models/user');
 
 exports.getBug = async (req, res, next) => {
     let bugId = req.params.bugId;
@@ -42,6 +43,7 @@ exports.createBug = async (req, res, next) => {
     const devEmail = req.body.dev_email;
     const projId = req.body.projId;
 
+
     const bug = new Bug(
         null,
         bugTitle,
@@ -54,7 +56,22 @@ exports.createBug = async (req, res, next) => {
         devEmail,
         projId
     );
+
+    console.log(bug);
+
     try {
+        let userId = author;
+        let user = await User.getUser(userId);
+        console.log(user.rows[0]);
+        let credits = user.rows[0].credits - 1;
+        console.log(credits);
+        if (credits <= 0) {
+            const error = new Error('You need to buy credits');
+            error.statusCode = 404;
+            throw error;
+        }
+        User.removeCreditsFromUser(credits, userId);
+
         const result = await bug.createBug();
         res.status(201).json({
             message: 'Created!',

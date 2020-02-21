@@ -37,24 +37,6 @@ const renderTextField = ({
     />
 )
 
-const renderTextContentField = ({
-    input,
-    label,
-    meta: { touched, invalid, error },
-    ...custom
-}) => (
-    <TextField
-        id="standard-multiline-flexible"
-        multiline
-        rowsMax="6"
-        label={label}
-        placeholder={label}
-        error={touched && invalid}
-        helperText={touched && error}
-        {...input}
-        {...custom}
-    />
-);
 
 const ProjectForm = props => {
     const { handleSubmit, pristine, submitting } = props;
@@ -72,10 +54,8 @@ const ProjectForm = props => {
             <div>
                 <Field 
                     name="password"
-                    component={renderTextContentField}
+                    component={renderTextField}
                     label="Password"
-                    multiline
-                    rowsMax="6"
                 />
             </div>
             <Button
@@ -87,7 +67,7 @@ const ProjectForm = props => {
                 >
                 Submit
             </Button>
-            <Link to='/projects' style={{ textDecoration: "none" }}>
+            <Link to='/' style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>

@@ -12,10 +12,14 @@ class BugCreate extends Component {
     }
     
     render() {
+        let projId = this.props.match.params.projId;
         return (
             <div>
                 <h3 className="FormTitle">Create Bug</h3>
-                <BugForm onSubmit={this.onSubmit} />
+                <BugForm 
+                    onSubmit={this.onSubmit} 
+                    projId={projId}
+                />
             </div>
         )
     }

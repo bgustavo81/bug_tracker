@@ -43,8 +43,8 @@ class App extends Component {
                     <Header />
                     <Switch>
                         <Route path='/' exact component={Landing} />
-                        <Route path='/signin' exact component={SignIn} />
-                        <Route path='/signup' exact component={SignUp} />
+                        <Route path='/login' exact component={SignIn} />
+                        <Route path='/register' exact component={SignUp} />
                         
                         <Route path='/bug/new/:projId' exact component={BugCreate} />
                         <Route path='/bug/update/:bugId' exact component={BugUpdate} />

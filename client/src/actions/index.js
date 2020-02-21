@@ -56,13 +56,20 @@ export const fetchUsers = () => async dispatch => {
 };
 
 
-export const createUser = (formValues) => async (dispatch, getState) => {
+export const createUser = (formValues) => async (dispatch) => {
     // getState for auth object
-    const { userId } = getState.auth;
-    const response = await server.post("/user", { ...formValues, userId});
+    const response = await server.post("/register", { ...formValues});
 
     dispatch({ type: CREATE_USER, payload: response.data});
-    history.push('/users')
+    history.push('/login');
+}
+
+export const loginUser = (formValues) => async (dispatch) => {
+    // getState for auth object
+    const response = await axios.post('http://localhost:5000/login', { ...formValues});
+
+    dispatch({ type: CREATE_USER, payload: response.data});
+    // history.push('/projects');
 }
 
 export const updateUser = (userId, formValues) => async dispatch => {

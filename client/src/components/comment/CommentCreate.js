@@ -6,16 +6,21 @@ import '../../styles/FormStyles.css';
 
 class CommentCreate extends Component {
     onSubmit = (formValues) => {
-        let bugId = this.props.match.params.bugId
+        let bugId = this.props.match.params.bugId;
         bugId = parseInt(bugId);
         this.props.createComment(formValues, bugId);
     }
     
     render() {
+        let bugId = this.props.match.params.bugId;
+        console.log(bugId);
         return (
             <div>
                 <h3 className="FormTitle">Write a comment</h3>
-                <CommentForm onSubmit={this.onSubmit} />
+                <CommentForm 
+                    onSubmit={this.onSubmit}
+                    comm={bugId}
+                />
             </div>
         );
     };

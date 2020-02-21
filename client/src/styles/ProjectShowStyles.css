@@ -36,6 +36,12 @@
     top: 80px;
     text-align: center;
 }
+
+.CommentShowLink {
+    position: relative;
+    text-align: center;
+}
+
 .ShowSkeletonContainer div {
     max-width: 960px;
     margin: 0 auto;

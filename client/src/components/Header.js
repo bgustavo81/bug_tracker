@@ -20,7 +20,7 @@ class Header extends Component {
             <div className="link trackerly">
             <Link to='/' className='link parkly'>Bug Trackerly</Link>              
             </div>              
-            <Link to='/signin'><Button variant="contained" color="secondary">SignIn</Button></Link>
+            <Link to='/login'><Button variant="contained" color="secondary">Login</Button></Link>
           </React.Fragment>
         )
       default: 

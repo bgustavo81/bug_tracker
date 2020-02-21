@@ -8,6 +8,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import '../../styles/ProjectShowStyles.css';
 import { Button } from '@material-ui/core';
 import SkeletonBlock from '../Skeleton';
+import Payments from '../Payments';
 
 class ProjectShow extends Component {
     componentDidMount() {
@@ -58,7 +59,7 @@ class ProjectShow extends Component {
                 <div key={bug.bug_id} className="ListCard">
                     <div>
                         <h4 className="ListCardTitle">
-                            <Link to={`post/${bug.bug_id}`} style={{ textDecoration: 'none', color: "black" }}>
+                            <Link to={`/bug/${bug.bug_id}`} style={{ textDecoration: 'none', color: "black" }}>
                                 {bug.bug_title}
                             </Link>
                         </h4>
@@ -85,13 +86,25 @@ class ProjectShow extends Component {
 
     renderCreate() {
         const projId = this.props.match.params.projId;
-        if (this.props.auth) {
+        let auth = this.props.auth;
+        if (!auth) {
+            console.log(auth)
             return (
-                <div className="ListCreateButton">
+            <div className="ListCreateButton">
+            </div>
+            )
+        } else if (auth[0].credits >= 0)  {
+             console.log(auth);
+            return (
+            <div className="ListCreateButton">
                 <Link to={`/bug/new/${projId}`} style={{ textDecoration: 'none'}}>
                     <Button variant="outlined" color="primary">Create Bug</Button>
                 </Link>
             </div>
+            )
+        } else {
+            return (
+                <Payments />
             )
         }
     }

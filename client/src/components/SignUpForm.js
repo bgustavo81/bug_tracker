@@ -3,12 +3,16 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-import "../../styles/FormStyles.css";
+import "../styles/SignInStyles.css";
+
 
 const validate = values => {
     const errors = {};
     const requiredFields = [
-        'content'
+        'first_name',
+        'last_name',
+        'email',
+        'password'
     ]
     requiredFields.forEach(field => {
         if(!values[field]) {
@@ -18,7 +22,7 @@ const validate = values => {
     return errors;
 }
 
-const renderTextContentField = ({
+const renderTextField = ({
     input,
     label, 
     meta: { touched, invalid, error },
@@ -35,16 +39,39 @@ const renderTextContentField = ({
     />
 )
 
-const CommentForm = props => {
-    const { handleSubmit, pristine, reset, submitting, comm } = props;
-    console.log(comm)
+
+const ProjectForm = props => {
+    const { handleSubmit, pristine, submitting } = props;
+    console.log(props.initialValues);
+
     return (
-        <form onSubmit={handleSubmit} autoComplete="off" className="Form">
+        <form onSubmit={handleSubmit} autoComplete="off" className="SignInForm">
+            <div>
             <div>
                 <Field 
-                    name="content"
-                    component={renderTextContentField}
-                    label="content"
+                    name="first_name"
+                    component={renderTextField}
+                    label="First Name"
+                />
+            </div>
+            <div>
+                <Field 
+                    name="last_name"
+                    component={renderTextField}
+                    label="Last Name"
+                />
+            </div>
+                <Field 
+                    name="email"
+                    component={renderTextField}
+                    label="Email"
+                />
+            </div>
+            <div>
+                <Field 
+                    name="password"
+                    component={renderTextField}
+                    label="Password"
                 />
             </div>
             <Button
@@ -56,14 +83,7 @@ const CommentForm = props => {
                 >
                 Submit
             </Button>
-            <Button 
-                variant="outlined"
-                size="large" 
-                disabled={pristine || submitting} 
-                onClick={reset}>
-                Reset
-            </Button>
-            <Link to={`/bug/${comm}`} style={{ textDecoration: "none" }}>
+            <Link to='/' style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>
@@ -72,8 +92,7 @@ const CommentForm = props => {
     )
 }
 
-
 export default reduxForm({
-    form: 'commentForm',
+    form: 'projectForm',
     validate: validate
-})(CommentForm);
+})(ProjectForm);

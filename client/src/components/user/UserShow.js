@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchUser } from '../../actions';
+// import { fetchUser } from '../../actions';
 import Skeleton from '@material-ui/lab/Skeleton';
 import '../../styles/UserShowStyles.css';
 import { Button } from '@material-ui/core';
 
 class UserShow extends React.Component {
-    componentDidMount() {
-        this.props.fetchUser(this.props.match.params.userId);
-    }
-    renderAdmin(auth, user) {
+    // componentDidMount() {
+    //     this.props.fetchUser(this.props.match.params.userId);
+    // }
+    renderAdmin(auth) {
         switch(auth) {
             case null:
                 return;
@@ -46,8 +46,6 @@ class UserShow extends React.Component {
     render() {
         let auth = this.props.auth;
         let user = this.props.user;
-        console.log(auth);
-        console.log(user);
         if (!auth) {
             return (
                 <div className="ShowSkeletonContainer">
@@ -60,15 +58,15 @@ class UserShow extends React.Component {
         }
         [auth] = auth;
         [user] = user;
-        console.log(auth);
+        console.log(user);
         return (
             <div className="UserShowContainer">
                 <div className="ShowContainer">
-                    <h3>Manage your account {user.first_name}</h3>
-                    <p>First Name: {user.first_name}</p>
-                    <p>Last Name: {user.last_name}</p>
-                    <p>Email: {user.email}</p>
-                    <p>Credits: {user.credits}</p>
+                    <h3>Manage your account {auth.first_name}</h3>
+                    <p>First Name: {auth.first_name}</p>
+                    <p>Last Name: {auth.last_name}</p>
+                    <p>Email: {auth.email}</p>
+                    <p>Credits: {auth.credits}</p>
                 {this.renderAdmin(auth)}
                 </div>
             </div>
@@ -84,6 +82,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(
-    mapStateToProps,
-    {fetchUser}
+    mapStateToProps
+    // {fetchUser}
 )(UserShow);

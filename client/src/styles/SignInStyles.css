@@ -3,6 +3,10 @@
     padding: 32px;
 }
 
+.SignUpWrapper {
+    height: 78vh;
+}
+
 .SignInTitle {
     font-size: 42px;
     text-align: center;

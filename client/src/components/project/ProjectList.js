@@ -52,7 +52,7 @@ class ProjectList extends Component {
                 <div key={project.project_id} className="ListCard">
                     <div>
                         <h4 className="ListCardTitle">
-                            <Link to={`post/${project.project_id}`} style={{ textDecoration: 'none', color: "black" }}>
+                            <Link to={`project/${project.project_id}`} style={{ textDecoration: 'none', color: "black" }}>
                                 {project.title}
                             </Link>
                         </h4>

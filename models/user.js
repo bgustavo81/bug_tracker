@@ -1,17 +1,32 @@
 const pool = require('../services/pool');
 
 module.exports = class User {
-    constructor(userId, firstName, lastName, email) {
+    constructor(userId, firstName, lastName, email, password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
     }
 
     static getUser(userId) {
         return pool.query(
             'SELECT * FROM users where user_id = $1',
             [userId]
+        )
+    }
+
+    static getUserByEmail(email) {
+        return pool.query(
+            'SELECT * FROM users where email = $1',
+            [email]
+        )
+    }
+
+    static getUserById(user_id) {
+        return pool.query(
+            'SELECT * FROM users where user_id = $1',
+            [user_id]
         )
     }
 
@@ -29,10 +44,18 @@ module.exports = class User {
         )
     }
 
-    static updateUser(firstName, lastName, email, username, userId) {
+    createLoginUser() {
         return pool.query(
-            `UPDATE users SET first_name = $1, last_name = $2, email = $3, username=$4 WHERE user_id = $5`,
-            [firstName, lastName, email, username, userId]
+            `INSERT INTO users (user_id, first_name, last_name, email, password)
+                VALUES ($1, $2, $3, $4, $5)`,
+            [this.userId, this.firstName, this.lastName, this.email, this.password]
+        )
+    }
+
+    static updateUser(firstName, lastName, email, userId) {
+        return pool.query(
+            `UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE user_id = $4`,
+            [firstName, lastName, email, userId]
         )
     }
 
@@ -44,6 +67,12 @@ module.exports = class User {
     }
 
     static addCreditsToUser(credits, userId) {
+        return pool.query(
+            `UPDATE users SET credits = $1 WHERE user_id = $2`, [credits, userId]
+        )
+    }
+
+    static removeCreditsFromUser(credits, userId) {
         return pool.query(
             `UPDATE users SET credits = $1 WHERE user_id = $2`, [credits, userId]
         )
