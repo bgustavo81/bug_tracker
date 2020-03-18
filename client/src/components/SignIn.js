@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { loginUser } from '../actions';
 import Button from "@material-ui/core/Button";
-import SignInForm from './SignInForm';
+// import SignInForm from './SignInForm'; // debug passport 
 import "../styles/SignInStyles.css";
 import { connect } from 'react-redux';
 
@@ -23,9 +23,9 @@ class SignIn extends React.Component {
                         <p><a href="/auth/github"><Button variant="outlined">SignIn with Github</Button></a></p>
 
                     </div>
-                    <SignInForm onSubmit={this.onSubmit} />
+                    {/* <SignInForm onSubmit={this.onSubmit} /> */}
                 </div>
-                <p className="SignUpLink"><Link to="/register" style={{textDecoration: "none", color: "#197EAB"}}>Don't have an account?</Link></p>
+                {/* <p className="SignUpLink"><Link to="/register" style={{textDecoration: "none", color: "#197EAB"}}>Don't have an account?</Link></p> */}
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+import ImagePicker from './ImagePicker';
 import TextField from "@material-ui/core/TextField";
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -172,13 +173,6 @@ const BugForm = props => {
         </div>
         <div>
             <Field
-                name="image"
-                component={renderTextField}
-                label="Image"
-            />
-        </div>
-        <div>
-            <Field
                 name="deadline"
                 component={renderTextField}
                 label="Deadline"
@@ -189,6 +183,13 @@ const BugForm = props => {
                 name="dev_email"
                 component={renderTextField}
                 label="Assigned Dev (e.i. example@gmail.com)"
+            />
+        </div>
+        <div>
+            <Field
+                name="image"
+                component={ImagePicker}
+                label="Select an Image"
             />
         </div>
         <Button

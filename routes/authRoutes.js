@@ -56,7 +56,7 @@ module.exports = app => {
 
 
     
-    app.post('/register', async (req, res, next) => {
+    app.post('/auth/register', async (req, res, next) => {
             const password = await bcrypt.hash(req.body.password, 10);
             const userId = Math.floor(Math.random()*1000000000).toString();
             console.log({"user": userId});
@@ -77,14 +77,6 @@ module.exports = app => {
                 next(err);
             }
     });
-
-    
-    app.get('/api/logout', (req, res, next) => {
-        console.log("logged out req.user")
-        console.log(req.user);
-        req.logout();
-        res.redirect('/');
-    })
 
 
     // app.post('/login',
@@ -110,6 +102,12 @@ module.exports = app => {
     app.get('/login', (req, res, next) => {
         console.log(req.session);
         res.send(req.user);
+    })
+
+    app.get('/api/logout', (req, res, next) => {
+        console.log("logged out req.user")
+        req.logout();
+        res.redirect('/');
     })
 
     app.get('/api/current_user', async (req, res, next) => {

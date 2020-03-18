@@ -1,5 +1,5 @@
-import server from '../apis/server';
 import history from '../history';
+import server from '../apis/server';
 import axios from "axios";
 import {
     FETCH_CURRENT_USER,
@@ -41,6 +41,8 @@ export const handleToken = token => async dispatch => {
     dispatch({ type: FETCH_CURRENT_USER, payload: response.data });
 }
 
+
+
 // actions for User
 
 export const fetchUser = (userId) => async dispatch => {
@@ -66,7 +68,7 @@ export const createUser = (formValues) => async (dispatch) => {
 
 export const loginUser = (formValues) => async (dispatch) => {
     // getState for auth object
-    const response = await axios.post('http://localhost:5000/login', { ...formValues});
+    const response = await server.post('/login', { ...formValues});
 
     dispatch({ type: CREATE_USER, payload: response.data});
     // history.push('/projects');
@@ -90,12 +92,14 @@ export const deleteUser = (userId) => async dispatch => {
 
 export const fetchProject = (projId) => async dispatch => {
     const response = await server.get(`/project/${projId}`);
+
     
     dispatch({ type: FETCH_PROJECT, payload: response.data.projects[0] });
 }
 
 export const fetchProjects = () => async dispatch => {
     const response = await server.get('/projects');
+    console.log(response.data);
 
     dispatch({ type: FETCH_PROJECTS, payload: response.data.projects });
 };
@@ -139,9 +143,22 @@ export const fetchBugs = () => async dispatch => {
 };
 
 export const createBug = (formValues, projId) => async (dispatch, getState) => {
+    const uploadConfig = await axios.get('/api/upload');
+    let file = formValues.image;
+
+    console.log(file);
+
+    await axios.put(uploadConfig.data.url, file, {
+        headers: {
+            'Content-Type': file.type
+        }
+    })
+
     // getState for auth object
     let author = getState().auth[0].user_id;
-    const response = await server.post('/bug', { ...formValues, author, projId });
+
+    const response = await server.post('/bug', { ...formValues, imageUrl: uploadConfig.data.key, author, projId });
+    console.log(formValues.image);
 
     dispatch({ type: CREATE_BUG, payload: response.data });
     history.push(`/project/${projId}`);
@@ -189,7 +206,8 @@ export const createComment = (formValues, bugId) => async (dispatch, getState) =
 
 export const updateComment = (commentId, formValues) => async (dispatch, getState) => {
     const response = await server.patch(`/comment/${commentId}`, formValues);
-    let bugId = getState().comm.undefined.comment[0].bug_id;
+    let bugId = formValues.bug_id;
+
 
     dispatch({ type: UPDATE_COMMENT, payload: response.data });
     history.push(`/bug/${bugId}`);
@@ -197,7 +215,7 @@ export const updateComment = (commentId, formValues) => async (dispatch, getStat
 
 export const deleteComment = (commentId) => async (dispatch, getState) => {
     let bugId = getState().comm.undefined[0].bug_id;
-    await server.delete(`/comment/${commentId}`);
+    await server.delete(`/api/comment/${commentId}`);
 
 
     dispatch({ type: DELETE_COMMENT, payload: commentId });

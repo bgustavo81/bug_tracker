@@ -46,9 +46,9 @@ const commentRoutes = require('./routes/commentRoutes');
 const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 // Routes
+require('./routes/uploadRoutes')(app);
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
-require('./routes/surveyRoutes')(app);
 app.use('/', bugRoutes);
 app.use('/', commentRoutes);
 app.use('/', userRoutes);
@@ -68,18 +68,6 @@ app.use((req, res, next) => {
 });
 
 
-
-
-
-
-// if (process.env.NODE_ENV === "production") {
-// // Set static folder
-// app.use(express.static("client/build"));
-// // server will serve up index.html file if it doesn't recognize the route
-// app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-// });
-// }
 
 
 const PORT  = process.env.PORT || 5000;

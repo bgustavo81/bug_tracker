@@ -1,16 +1,17 @@
-.UserShowContainer {
+.UserShowWrapper {
     background-color: #f4f4f4;
+    width: 100%;
     padding: 32px;
-    height: 86vh;
+    height: 80vh;
 }
 
-.ShowContainer {
-    max-width: 440px;
+.UserShowContainer {
+    max-width: 480px;
     position: relative;
     margin: 0 auto;
 }
 
-.ShowContainer h3 {
+.UserShowContainer h3 {
     font-size: 32px;
 }
 

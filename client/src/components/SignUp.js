@@ -1,7 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import { createUser } from '../actions';
-import Button from "@material-ui/core/Button";
 import SignUpForm from './SignUpForm';
 import "../styles/SignInStyles.css";
 import { connect } from 'react-redux';

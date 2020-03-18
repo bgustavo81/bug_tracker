@@ -60,8 +60,8 @@ class UserShow extends React.Component {
         [user] = user;
         console.log(user);
         return (
-            <div className="UserShowContainer">
-                <div className="ShowContainer">
+            <div className="UserShowWrapper">
+                <div className="UserShowContainer">
                     <h3>Manage your account {auth.first_name}</h3>
                     <p>First Name: {auth.first_name}</p>
                     <p>Last Name: {auth.last_name}</p>

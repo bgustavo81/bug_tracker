@@ -48,10 +48,23 @@ class ProjectShow extends Component {
         }
     }
 
+    renderImage(bug) {
+        if (bug.image) {
+            return (
+                <div className="ImageShowContainer">
+                    <Link to={`/bug/${bug.bug_id}`}>
+                        <img className="ImageShow" src={'https://foto-bucket-12345.s3.us-east-2.amazonaws.com/'+ bug.image} />
+                    </Link>
+                </div>
+            );
+        }
+    }
+
     renderList() {
         let bug = this.props.bug.flat();
         let projId = this.props.match.params.projId;
         projId = parseInt(projId);
+        console.log(this.props)
         bug = bug.filter(bug => bug.project_id === projId);
         console.log(bug);
         return bug.map(bug => {
@@ -63,7 +76,7 @@ class ProjectShow extends Component {
                                 {bug.bug_title}
                             </Link>
                         </h4>
-                            <p><b>Image:</b> image</p>
+                        {this.renderImage(bug)}
                         <div className="ProjectListCardContent">
                             <p><b>Priority:</b> {bug.priority}</p>
                             <p><b>Status:</b> {bug.status}</p>
@@ -93,7 +106,7 @@ class ProjectShow extends Component {
             <div className="ListCreateButton">
             </div>
             )
-        } else if (auth[0].credits >= 0)  {
+        } else if (auth[0].credits > 0)  {
              console.log(auth);
             return (
             <div className="ListCreateButton">
@@ -111,7 +124,7 @@ class ProjectShow extends Component {
 
     renderProject(proj) {
         return (
-            <div className="ShowContainer">
+            <div className="ProjectShowContainer">
                 { proj ? (
                 <React.Fragment>
                     <div className="ShowInfo">

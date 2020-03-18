@@ -2,13 +2,14 @@ const Project = require('../models/project');
 
 exports.getProject = async (req, res, next) => {
     const projId = req.params.projId;
+    console.log(req)
     try {
         const result = await Project.getProject(projId);
         let status = res.status(200).json({
             message: `project ${projId} was retrieved`,
             projects: result.rows
         });
-        console.log(status);
+        console.log(result);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

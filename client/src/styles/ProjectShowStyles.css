@@ -1,21 +1,25 @@
-.ShowContainer {
-    background-color: #f4f4f4;
-    padding: 32px;
+.ImageShowContainer {
+    position: relative;
+    width: 100%;
+    margin: 16px 0px;
 }
+
+.ImageShow {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ProjectShowContainer, .BugShowContainer {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
 
 .ShowTitle {
     font-size: 48px;
     text-align: center;
-}
-
-.ShowHero {
-    background-image: url('/images/yosemite.jpg');
-    background-color: #f4f4f4;
-    height: 500px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
 }
 
 .ShowContent {

@@ -49,6 +49,9 @@ class BugShow extends Component {
         }
     }
 
+
+
+
     renderList() {
         let comment = this.props.comm.flat();
         let bugId = this.props.match.params.bugId;
@@ -87,14 +90,24 @@ class BugShow extends Component {
         }
     }
 
+    renderImage(bug) {
+        if (bug.image) {
+            return (
+                <div className="ImageShowContainer">
+                    <img className="ImageShow" src={'https://foto-bucket-12345.s3.us-east-2.amazonaws.com/'+ bug.image} />
+                </div>
+            );
+        }
+    }
+
     renderBug(bug) {
         return (
-            <div className="ShowContainer">
+            <div className="BugShowContainer">
             { bug ? (
             <React.Fragment>
                 <div className="ShowInfo">
                     <h2 className="ShowTitle">{bug.bug_title}</h2>
-                        <p><b>Image:</b> image</p>
+                        {this.renderImage(bug)}
                     <div className="ShowContent">
                         <p><b>Priority:</b> {bug.priority}</p>
                         <p><b>Status:</b> {bug.status}</p>
