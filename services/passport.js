@@ -10,7 +10,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GithubStrategy = require('passport-github').Strategy;
 
 const keys = require('../config/keys');
-const User = require('../models/user');
+const User = require('../models/users');
 
     
 const cookieExtractor = req => {
