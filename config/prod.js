@@ -1,7 +1,8 @@
 module.exports = {
     googleClientID: process.env.GOOGLE_CLIENT_ID,
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    twitterApiKey: process.env.TWITTER_API_KEY,
+    githubApiKey: process.env.GITHUB_API_KEY,
+    githubSecretApiKey: process.env.GITHUB_SECRET_API_KEY,
     twitterApiSecretKey: process.env.TWITTER_SECRET_API_KEY,
     facebookApiKey: process.env.FACEBOOK_API_KEY,
     facebookApiSecretKey: process.env.FACEBOOK_API_SECRET_KEY,
