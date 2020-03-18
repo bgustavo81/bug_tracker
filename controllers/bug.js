@@ -1,5 +1,5 @@
 const Bug  = require('../models/bug');
-const User = require('../models/user');
+const User = require('../models/users');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
