@@ -127,9 +127,7 @@ exports.createBug = async (req, res, next) => {
     }
 };
 
-exports.sendNotification = async (req, res, next) => {
 
-}
 
 exports.updateBug = async (req, res, next) => {
     const bugTitle = req.body.bug_title;

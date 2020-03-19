@@ -8,6 +8,7 @@ import {
 } from '../actions/type';
 
 export default (state = {}, action) => {
+    console.log(action.payload);
     switch (action.type) {
         case FETCH_USER:
             return { ...state, [action.payload.id]: action.payload};

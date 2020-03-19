@@ -1,3 +1,6 @@
+const express = require("express");
+const router = express.Router();
+const auth = require("../middlewares/requireLogin");
 const AWS = require('aws-sdk');
 const uuid = require('uuid/v1')
 const requireLogin = require('../middlewares/requireLogin');
@@ -12,14 +15,17 @@ const s3 = new AWS.S3({
     region: 'us-east-2'
 })
 
-module.exports = app => {
-    app.get('/api/upload', (req, res, next) => {
-        const key = `${req.session.passport.user}/${uuid()}.jpeg`;
+// @route    GET api/upload
+// @desc     get presigned url
+// @access   Private
+router.get('/', (req, res, next) => {
+    const key = `${req.session.passport.user}/${uuid()}.jpeg`;
 
-        s3.getSignedUrl('putObject', {
-            Bucket: 'foto-bucket-12345',
-            ContentType: 'image/jpeg',
-            Key: key
-        }, (err, url) => res.send({ key, url }));
-    })
-}
+    s3.getSignedUrl('putObject', {
+        Bucket: 'foto-bucket-12345',
+        ContentType: 'image/jpeg',
+        Key: key
+    }, (err, url) => res.send({ key, url }));
+});
+
+module.exports = router;

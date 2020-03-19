@@ -149,12 +149,10 @@ passport.use(new LocalStrategy({
   ));
 
 passport.serializeUser( async (user, done) => {
-    console.log("line 38 serialize: " + user);
     done(null, user);
 });
 
 passport.deserializeUser( async (id, done) => {
-    console.log("line 43 deserialize: " + id);
     await User.getUser(id).then(user => {
         done(null, user);
     });

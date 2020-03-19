@@ -1,5 +1,4 @@
 import history from '../history';
-import server from '../apis/server';
 import axios from "axios";
 import {
     FETCH_CURRENT_USER,
@@ -28,7 +27,7 @@ import {
 // action to get current User
 
 export const fetchCurrentUser = () => async dispatch => {
-    const response = await axios.get("/api/current_user");
+    const response = await axios.get("/auth/current_user");
 
     dispatch({ type: FETCH_CURRENT_USER, payload: response.data.rows });
 };
@@ -36,7 +35,7 @@ export const fetchCurrentUser = () => async dispatch => {
 // action to handle Token
 
 export const handleToken = token => async dispatch => {
-    const response = await axios.post("/api/stripe", token);
+    const response = await axios.post("/api/billing", token);
 
     dispatch({ type: FETCH_CURRENT_USER, payload: response.data });
 }
@@ -46,43 +45,50 @@ export const handleToken = token => async dispatch => {
 // actions for User
 
 export const fetchUser = (userId) => async dispatch => {
-    const response = await server.get(`/user/${userId}`);
+    const response = await axios.get(`/api/users/${userId}`);
 
     dispatch({ type: FETCH_USER, payload: response.data.user[0] });
 };
 
 export const fetchUsers = () => async dispatch => {
-    const response = await server.get("/users");
+    const response = await axios.get("/api/users");
 
     dispatch({ type: FETCH_USERS, payload: response.data });
 };
 
+export const getGoogle = () => async dispatch => {
+    const response = await axios.get("/auth/google");
+}
+
 
 export const createUser = (formValues) => async (dispatch) => {
     // getState for auth object
-    const response = await server.post("/register", { ...formValues});
+    const response = await axios.post("/api/auth/register", { ...formValues});
 
     dispatch({ type: CREATE_USER, payload: response.data});
     history.push('/login');
 }
 
+// not in use
 export const loginUser = (formValues) => async (dispatch) => {
     // getState for auth object
-    const response = await server.post('/login', { ...formValues});
+    const response = await axios.post('/api/auth/login', { ...formValues});
 
     dispatch({ type: CREATE_USER, payload: response.data});
     // history.push('/projects');
 }
 
 export const updateUser = (userId, formValues) => async dispatch => {
-    const response = await server.patch(`/user/${userId}`, formValues, userId);
+    const response = await axios.patch(`/api/users/${userId}`, formValues, userId);
+
+    console.log(response.data);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
     history.push(`/user/${userId}`);
 }
 
 export const deleteUser = (userId) => async dispatch => {
-    await server.delete(`/user/${userId}`);
+    await axios.delete(`/api/users/${userId}`);
 
     dispatch({ type: DELETE_USER, payload: userId });
     history.push('/users');
@@ -91,14 +97,15 @@ export const deleteUser = (userId) => async dispatch => {
 // actions for Projects
 
 export const fetchProject = (projId) => async dispatch => {
-    const response = await server.get(`/project/${projId}`);
+    console.log(projId);
+    const response = await axios.get(`/api/projects/${projId}`);
 
     
     dispatch({ type: FETCH_PROJECT, payload: response.data.projects[0] });
 }
 
 export const fetchProjects = () => async dispatch => {
-    const response = await server.get('/projects');
+    const response = await axios.get('/api/projects');
     console.log(response.data);
 
     dispatch({ type: FETCH_PROJECTS, payload: response.data.projects });
@@ -107,14 +114,14 @@ export const fetchProjects = () => async dispatch => {
 export const createProject = (formValues) => async (dispatch, getState) => {
     // getState for auth object
     let userId = getState().auth[0].user_id;
-    const response = await server.post("/project", {...formValues, userId});
+    const response = await axios.post("/api/projects", {...formValues, userId});
 
     dispatch({ type: CREATE_PROJECT, payload: response.data });
     history.push('/projects')
 };
 
 export const updateProject = (projId, formValues) => async dispatch => {
-    const response = await server.patch(`/project/${projId}`, formValues);
+    const response = await axios.patch(`/api/projects/${projId}`, formValues);
 
 
     dispatch({ type: UPDATE_PROJECT, payload: response.data });
@@ -122,7 +129,7 @@ export const updateProject = (projId, formValues) => async dispatch => {
 }
 
 export const deleteProject = (projId) => async dispatch => {
-    await server.delete(`/project/${projId}`);
+    await axios.delete(`/api/projects/${projId}`);
 
     dispatch({ type: DELETE_PROJECT, payload: projId });
     history.push('/projects');
@@ -131,13 +138,13 @@ export const deleteProject = (projId) => async dispatch => {
 // actions for Bugs
 
 export const fetchBug = (bugId) => async dispatch => {
-    const response = await server.get(`/bug/${bugId}`);
+    const response = await axios.get(`/api/bugs/${bugId}`);
 
     dispatch({ type: FETCH_BUG, payload: response.data.bug });
 };
 
 export const fetchBugs = () => async dispatch => {
-    const response = await server.get("/bugs");
+    const response = await axios.get("/api/bugs");
 
     dispatch({ type: FETCH_BUGS, payload: response.data.bugs });
 };
@@ -157,7 +164,7 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
     // getState for auth object
     let author = getState().auth[0].user_id;
 
-    const response = await server.post('/bug', { ...formValues, imageUrl: uploadConfig.data.key, author, projId });
+    const response = await axios.post('/api/bugs', { ...formValues, imageUrl: uploadConfig.data.key, author, projId });
     console.log(formValues.image);
 
     dispatch({ type: CREATE_BUG, payload: response.data });
@@ -165,7 +172,7 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
 };
 
 export const updateBug = (bugId, formValues) => async (dispatch, getState) => {
-    const response = await server.patch(`/bug/${bugId}`, formValues);
+    const response = await axios.patch(`/api/bugs/${bugId}`, formValues);
     let projId = getState().bug.undefined[0].project_id;
     console.log(projId)
 
@@ -174,7 +181,7 @@ export const updateBug = (bugId, formValues) => async (dispatch, getState) => {
 };
 
 export const deleteBug = (bugId) => async dispatch => {
-    await server.delete(`/bug/${bugId}`);
+    await axios.delete(`/api/bugs/${bugId}`);
 
     dispatch({ type: DELETE_BUG, payload: bugId })
     history.push('/projects')
@@ -183,13 +190,13 @@ export const deleteBug = (bugId) => async dispatch => {
 // actions for Comments
 
 export const fetchComment = (commId) => async dispatch => {
-    const response = await server.get(`/comment/${commId}`);
+    const response = await axios.get(`/api/comments/${commId}`);
 
     dispatch({ type: FETCH_COMMENT, payload: response.data.comment });
 };
 
 export const fetchComments = () => async dispatch => {
-    const response = await server.get('/comments');
+    const response = await axios.get('/api/comments');
 
     dispatch({ type: FETCH_COMMENTS, payload: response.data });
 };
@@ -198,14 +205,14 @@ export const createComment = (formValues, bugId) => async (dispatch, getState) =
     // getState for auth object
     let author = getState().auth[0].user_id;
     let authorEmail = getState().auth[0].email;
-    const response = await server.post('/comment', { ...formValues, author, authorEmail, bugId });
+    const response = await axios.post('/api/comments', { ...formValues, author, authorEmail, bugId });
 
     dispatch({ type: CREATE_COMMENT, payload: response.data });
     history.push(`/bug/${bugId}`);
 }
 
 export const updateComment = (commentId, formValues) => async (dispatch, getState) => {
-    const response = await server.patch(`/comment/${commentId}`, formValues);
+    const response = await axios.patch(`/api/comments/${commentId}`, formValues);
     let bugId = formValues.bug_id;
 
 
@@ -215,7 +222,7 @@ export const updateComment = (commentId, formValues) => async (dispatch, getStat
 
 export const deleteComment = (commentId) => async (dispatch, getState) => {
     let bugId = getState().comm.undefined[0].bug_id;
-    await server.delete(`/api/comment/${commentId}`);
+    await axios.delete(`/api/comments/${commentId}`);
 
 
     dispatch({ type: DELETE_COMMENT, payload: commentId });

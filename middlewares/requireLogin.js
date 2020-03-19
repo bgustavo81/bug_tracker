@@ -1,5 +1,6 @@
 module.exports = (req, res, next) => {
-    if (!req.user.rows[0].user_id) {
+    // param tells us whether a user is authenticated
+    if (!req.isAuthenticated()) {
         return res.status(401).send({error: 'You must log in!'});
     }
     next();

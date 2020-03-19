@@ -41,7 +41,7 @@ class Header extends Component {
                     <Payments />
                     <Link to='/bugs' style={{ textDecoration: "none", color: "white" }}>My Bugs</Link>
                     <Link to={`/user/${auth}`} style={{ textDecoration: "none", color: "white" }}>Account</Link>
-                    <a href="/api/logout" style={{ textDecoration: "none", color: "white" }}>Logout</a>
+                    <a href="/auth/logout" style={{ textDecoration: "none", color: "white" }}>Logout</a>
                 </div>
             </div>
           </React.Fragment>
