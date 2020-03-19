@@ -24,10 +24,7 @@ router.get('/', auth, (req, res, next) => {
         Bucket: 'foto-bucket-12345',
         ContentType: 'image/jpeg',
         Key: key
-    }, (err, url) => {
-        cosnoel.log(url);
-        res.send({ key, url })
-    });
+    }, (err, url) => res.send({ key, url }));
 });
 
 module.exports = router;
