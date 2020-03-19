@@ -14,7 +14,6 @@ router.get('/:commentId', auth, async (req, res, next) => {
             message: `post ${commentId} was retrieved`,
             comment: result.rows 
         });
-        console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -32,7 +31,6 @@ router.get('/', auth, async (req, res, next) => {
             message: 'Fetch comments successfully.',
             comment: result.rows
         });
-        console.log(status)
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -49,7 +47,6 @@ router.post('/', auth, async (req, res, next) => {
     const content = req.body.content;
     const bugId = req.body.bugId;
     const comment = new Comment(null, userId, content, bugId, email);
-    console.log(comment);
     try {
         const result = await comment.createComment();
         res.status(201).json({

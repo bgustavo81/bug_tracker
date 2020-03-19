@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require("../middlewares/requireLogin");
 const AWS = require('aws-sdk');
 const uuid = require('uuid/v1')
-const requireLogin = require('../middlewares/requireLogin');
 const keys = require('../config/keys');
 
 
@@ -18,7 +17,8 @@ const s3 = new AWS.S3({
 // @route    GET api/upload
 // @desc     get presigned url
 // @access   Private
-router.get('/', (req, res, next) => {
+router.get('/', auth, (req, res, next) => {
+    console.log("uploadRoute");
     const key = `${req.session.passport.user}/${uuid()}.jpeg`;
 
     s3.getSignedUrl('putObject', {

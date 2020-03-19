@@ -66,7 +66,6 @@ router.post('/', auth, async (req, res, next) => {
     const author = req.body.author;
     const devEmail = req.body.dev_email;
     const projId = req.body.projId;
-    console.log(req.body);
 
 
     const bug = new Bug(
@@ -82,14 +81,11 @@ router.post('/', auth, async (req, res, next) => {
         projId
     );
 
-    console.log(bug);
 
     try {
         let userId = author;
         let user = await User.getUser(userId);
-        console.log(user.rows[0]);
         let credits = user.rows[0].credits - 1;
-        console.log(credits);
         if (credits <= 0) {
             const error = new Error('You need to buy credits');
             error.statusCode = 404;

@@ -14,7 +14,6 @@ router.get('/:userId', auth, async (req, res, next) => {
             message: `user ${userId} was retrieved`,
             user: result.rows
         });
-        console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -33,7 +32,6 @@ router.get('/', auth, async (req, res, next) => {
             message: 'Fetched users sucessfully.',
             users: result.rows
         });
-        console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

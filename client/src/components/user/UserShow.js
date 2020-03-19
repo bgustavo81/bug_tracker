@@ -7,9 +7,7 @@ import '../../styles/UserShowStyles.css';
 import { Button } from '@material-ui/core';
 
 class UserShow extends React.Component {
-    // componentDidMount() {
-    //     this.props.fetchUser(this.props.match.params.userId);
-    // }
+
     renderAdmin(auth) {
         switch(auth) {
             case null:
@@ -19,7 +17,6 @@ class UserShow extends React.Component {
                     <React.Fragment />
                 )
             default: 
-            console.log(auth);
                 if (auth) {
                     return (
                         <div>
@@ -58,7 +55,6 @@ class UserShow extends React.Component {
         }
         [auth] = auth;
         [user] = user;
-        console.log(user);
         return (
             <div className="UserShowWrapper">
                 <div className="UserShowContainer">

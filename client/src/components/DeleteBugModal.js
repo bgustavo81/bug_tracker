@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import "../styles/DeleteModalStyles.css";
 
 const DeleteModal = props => {
-    console.log(props);
     return ReactDOM.createPortal(
         <div onClick={props.onDismiss} className="DeleteModalContainer">
             <div onClick={(e) => e.stopPropagation()} className="DeleteModalContent">

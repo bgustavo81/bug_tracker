@@ -9,14 +9,12 @@ const Project = require('../models/project');
 // @access   Private
 router.get('/:projId', auth, async (req, res, next) => {
     const projId = req.params.projId;
-    console.log(req.params);
     try {
         const result = await Project.getProject(projId);
         let status = res.status(200).json({
             message: `project ${projId} was retrieved`,
             projects: result.rows
         });
-        console.log(result);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -49,7 +47,6 @@ router.post('/', auth, async (req, res, next) => {
     const content = req.body.content;
     const deadline = req.body.deadline;
     const userId = req.body.userId;
-    console.log(userId);
     const project = new Project(null, userId, title, content, deadline);
     try {
         const result = await project.createProject();
@@ -57,7 +54,6 @@ router.post('/', auth, async (req, res, next) => {
             message: "Created Project",
             project: result.rows
         });
-        // console.log(status);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

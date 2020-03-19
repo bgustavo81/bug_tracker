@@ -138,7 +138,6 @@ class BugShow extends Component {
 
     render() {
         const [bug] = this.props.bug.flat();
-        console.log(bug);
         return (
             <div className="ListContainer">
                 <div className="ShowContainer">
@@ -160,7 +159,6 @@ class BugShow extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         comm: Object.values(state.comm),
         bug: Object.values(state.bug),

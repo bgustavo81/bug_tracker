@@ -1,8 +1,8 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
-const JwtStrategy = require('passport-jwt').Strategy;
-const { ExtractJwt } = require('passport-jwt');
+// const JwtStrategy = require('passport-jwt').Strategy;
+// const { ExtractJwt } = require('passport-jwt');
 
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -75,16 +75,12 @@ passport.use(new LocalStrategy({
       
       const user = await User.getUser(userId)
           if (user.rowCount === 1) {
-              console.log(user);
-              console.log("line 20 we have a user: " + user.rows[0].user_id);
               // we have a record of a user
               done(null, user.rows[0].user_id);
           } else {
-              console.log("createUser");
               // we have to record a new user
               let user = await new User(userId, firstName, lastName, email);
               user = user.createUser();
-              console.log(userId);
               done(null, userId);
           }
       })
@@ -97,22 +93,15 @@ passport.use(new LocalStrategy({
     callbackURL: "/auth/facebook/callback",
     proxy: true
   }, async (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     const userId = profile.id;
     let displayName = profile.displayName.split(" ");
     const firstName = displayName[0];
     const lastName = displayName[1];
 
-    console.log(userId);
-    console.log(displayName);
-
     const user = await User.getUser(userId);
       if (user.rowCount === 1) {
-        console.log("line 80")
-        console.log(user);
         done(null, user.rows[0].user_id)
       } else {
-        console.log("create user");
         let user = await new User(userId, firstName, lastName, null);
         user = user.createUser();
         done(null, userId);
@@ -132,15 +121,10 @@ passport.use(new LocalStrategy({
       const userId = profile.id;
       const firstName = profile.username;
       
-      console.log(userId);
-      console.log('line 110')
-      console.log(firstName);
       const user = User.getUser(userId);
       if (user.rowCount === 1) {
-        console.log("we are retreieving")
         done(null, user.rows[0].user_id)
       } else {
-        console.log("we are creating")
         let user = await new User(userId, firstName, null, null)
         user = user.createUser();
         done(null, userId);

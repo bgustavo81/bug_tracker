@@ -17,7 +17,6 @@ class BugUpdate extends React.Component {
     renderForm(bug) {
         if (bug && Array.isArray(bug)) {
             [bug] = bug;
-            console.log(bug);
             return (
                 <div>
                     <h3 className="FormTitle">Edit your bug</h3>
@@ -42,7 +41,6 @@ class BugUpdate extends React.Component {
 
     render() {
         let bug = this.props.bug;
-        console.log(bug);
 
         return (
             <div>

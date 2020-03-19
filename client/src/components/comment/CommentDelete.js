@@ -43,7 +43,6 @@ class CommentDelete extends React.Component {
             return <div className="DeleteModalContainer"></div>
         }
         [comm] = comm;
-        console.log(comm);
         return (
             <DeleteCommentModal
                 title="Delete Comment"

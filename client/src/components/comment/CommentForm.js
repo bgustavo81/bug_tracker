@@ -37,7 +37,6 @@ const renderTextContentField = ({
 
 const CommentForm = props => {
     const { handleSubmit, pristine, reset, submitting, comm } = props;
-    console.log(comm)
     return (
         <form onSubmit={handleSubmit} autoComplete="off" className="Form">
             <div>

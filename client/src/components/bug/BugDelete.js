@@ -55,7 +55,6 @@ class BugDelete extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    console.log(state.bug[ownProps.match.params.id])
     return {
         bug: state.bug[ownProps.match.params.id]
     }

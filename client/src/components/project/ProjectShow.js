@@ -64,9 +64,7 @@ class ProjectShow extends Component {
         let bug = this.props.bug.flat();
         let projId = this.props.match.params.projId;
         projId = parseInt(projId);
-        console.log(this.props)
         bug = bug.filter(bug => bug.project_id === projId);
-        console.log(bug);
         return bug.map(bug => {
             return (
                 <div key={bug.bug_id} className="ListCard">
@@ -101,13 +99,11 @@ class ProjectShow extends Component {
         const projId = this.props.match.params.projId;
         let auth = this.props.auth;
         if (!auth) {
-            console.log(auth)
             return (
             <div className="ListCreateButton">
             </div>
             )
         } else if (auth[0].credits > 0)  {
-             console.log(auth);
             return (
             <div className="ListCreateButton">
                 <Link to={`/bug/new/${projId}`} style={{ textDecoration: 'none'}}>
@@ -180,7 +176,6 @@ class ProjectShow extends Component {
 
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         proj: Object.values(state.proj),
         bug: Object.values(state.bug),

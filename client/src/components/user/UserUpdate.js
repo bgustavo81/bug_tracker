@@ -12,7 +12,6 @@ class UserUpdate extends React.Component {
 
     render() {
         let auth = this.props.auth;
-        console.log(auth);
         if (!auth) {
             return (
                 <div className="ShowSkeletonContainer">
