@@ -16,5 +16,5 @@ module.exports = {
     sendgridApiKey: process.env.SENDGRID_API_KEY,
     redirectDomain: process.env.REDIRECT_DOMAIN,
     AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY,
-    AWS_S3_ACCESS_SECRET_KEY: proccess.env.AWS_S3_ACCESS_SECRET_KEY
+    AWS_S3_ACCESS_SECRET_KEY: process.env.AWS_S3_ACCESS_SECRET_KEY
 };
