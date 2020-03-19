@@ -14,5 +14,7 @@ module.exports = {
     stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     sendgridApiKey: process.env.SENDGRID_API_KEY,
-    redirectDomain: process.env.REDIRECT_DOMAIN
+    redirectDomain: process.env.REDIRECT_DOMAIN,
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY,
+    AWS_S3_ACCESS_SECRET_KEY: proccess.env.AWS_S3_ACCESS_SECRET_KEY
 };

@@ -18,14 +18,16 @@ const s3 = new AWS.S3({
 // @desc     get presigned url
 // @access   Private
 router.get('/', auth, (req, res, next) => {
-    console.log("uploadRoute");
     const key = `${req.session.passport.user}/${uuid()}.jpeg`;
 
     s3.getSignedUrl('putObject', {
         Bucket: 'foto-bucket-12345',
         ContentType: 'image/jpeg',
         Key: key
-    }, (err, url) => res.send({ key, url }));
+    }, (err, url) => {
+        cosnoel.log(url);
+        res.send({ key, url })
+    });
 });
 
 module.exports = router;

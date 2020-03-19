@@ -81,7 +81,6 @@ export const loginUser = (formValues) => async (dispatch) => {
 export const updateUser = (userId, formValues) => async dispatch => {
     const response = await axios.patch(`/api/users/${userId}`, formValues, userId);
 
-    console.log(response.data);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
     history.push(`/user/${userId}`);
@@ -97,7 +96,6 @@ export const deleteUser = (userId) => async dispatch => {
 // actions for Projects
 
 export const fetchProject = (projId) => async dispatch => {
-    console.log(projId);
     const response = await axios.get(`/api/projects/${projId}`);
 
     
@@ -106,7 +104,6 @@ export const fetchProject = (projId) => async dispatch => {
 
 export const fetchProjects = () => async dispatch => {
     const response = await axios.get('/api/projects');
-    console.log(response.data);
 
     dispatch({ type: FETCH_PROJECTS, payload: response.data.projects });
 };
@@ -153,8 +150,6 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
     const uploadConfig = await axios.get('/api/upload');
     let file = formValues.image;
 
-    console.log(file);
-
     await axios.put(uploadConfig.data.url, file, {
         headers: {
             'Content-Type': file.type
@@ -165,8 +160,6 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
     let author = getState().auth[0].user_id;
 
     const response = await axios.post('/api/bugs', { ...formValues, imageUrl: uploadConfig.data.key, author, projId });
-    console.log(formValues.image);
-
     dispatch({ type: CREATE_BUG, payload: response.data });
     history.push(`/project/${projId}`);
 };
@@ -174,7 +167,6 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
 export const updateBug = (bugId, formValues) => async (dispatch, getState) => {
     const response = await axios.patch(`/api/bugs/${bugId}`, formValues);
     let projId = getState().bug.undefined[0].project_id;
-    console.log(projId)
 
     dispatch({ type: UPDATE_BUG, payload: response.data });
     history.push(`/project/${projId}`);
