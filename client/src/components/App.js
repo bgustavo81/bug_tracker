@@ -29,6 +29,8 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Footer from './Footer';
 import history from '../history';
+import "../styles/App.css";
+
 
 class App extends Component {
     componentDidMount() {
