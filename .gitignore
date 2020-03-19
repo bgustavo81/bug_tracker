@@ -20,6 +20,7 @@
 .env.development.local
 .env.development
 .env.test.local
+.env.production
 .env.production.local
 
 dev.js
