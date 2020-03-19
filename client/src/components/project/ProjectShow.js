@@ -26,7 +26,6 @@ class ProjectShow extends Component {
                     <React.Fragment />
                 )
             default:
-                if (bug.author === auth[0].user_id)
                 return (
                     <div>
                         { auth ? (
@@ -57,6 +56,11 @@ class ProjectShow extends Component {
                     </Link>
                 </div>
             );
+        } else {
+            return (
+                <>
+                </>
+            )
         }
     }
 

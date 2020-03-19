@@ -41,7 +41,7 @@ class App extends Component {
         return (
             <div>
             <Router history={history}>
-                <div>
+                <div className="MainContainer">
                     <Header />
                     <Switch>
                         <Route path='/' exact component={Landing} />
