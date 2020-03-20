@@ -10,11 +10,8 @@ const Project = require('../models/project');
 router.get('/:projId', auth, async (req, res, next) => {
     const projId = req.params.projId;
     try {
-        const result = await Project.getProject(projId);
-        let status = res.status(200).json({
-            message: `project ${projId} was retrieved`,
-            projects: result.rows
-        });
+        const result = await Project.getProjectById(projId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -28,10 +25,7 @@ router.get('/:projId', auth, async (req, res, next) => {
 router.get('/', auth, async (req, res, next) => {
     try {
         const result = await Project.getProjects();
-        res.status(200).json({
-            message: 'Fetched projects sucessfully.',
-            projects: result.rows
-        })
+        res.status(200).json(result.rows)
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -49,11 +43,8 @@ router.post('/', auth, async (req, res, next) => {
     const userId = req.body.userId;
     const project = new Project(null, userId, title, content, deadline);
     try {
-        const result = await project.createProject();
-        const status = res.status(201).json({
-            message: "Created Project",
-            project: result.rows
-        });
+        await project.createProject();
+        res.status(201).end();
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -82,11 +73,9 @@ router.patch('/:projId', auth, async (req, res, next) => {
         project.content = content;
         project.deadline = deadline;
         project.projId = projId;
-        const result = await Project.updateProject(title, content, deadline, projId);
-        res.status(200).json({
-            message: 'Updated!',
-            project: result.rows
-        });
+        await Project.updateProject(title, content, deadline, projId);
+        const result = await Project.getProjectById(projId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -107,10 +96,7 @@ router.delete('/:projId', auth, async (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                res.status(200).json({
-                    message: "Deleted !",
-                    project: result.rows
-                });
+                res.status(200).json(projId);
             })
     } catch (err) {
         if (!err.statusCode) {

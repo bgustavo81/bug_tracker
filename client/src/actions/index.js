@@ -47,7 +47,7 @@ export const handleToken = token => async dispatch => {
 export const fetchUser = (userId) => async dispatch => {
     const response = await axios.get(`/api/users/${userId}`);
 
-    dispatch({ type: FETCH_USER, payload: response.data.user[0] });
+    dispatch({ type: FETCH_USER, payload: response.data });
 };
 
 export const fetchUsers = () => async dispatch => {
@@ -56,9 +56,6 @@ export const fetchUsers = () => async dispatch => {
     dispatch({ type: FETCH_USERS, payload: response.data });
 };
 
-export const getGoogle = () => async dispatch => {
-    const response = await axios.get("/auth/google");
-}
 
 
 export const createUser = (formValues) => async (dispatch) => {
@@ -79,7 +76,10 @@ export const loginUser = (formValues) => async (dispatch) => {
 }
 
 export const updateUser = (userId, formValues) => async dispatch => {
+    console.log(formValues)
     const response = await axios.patch(`/api/users/${userId}`, formValues, userId);
+
+    console.log(response.data)
 
 
     dispatch({ type: UPDATE_USER, payload: response.data });
@@ -99,13 +99,13 @@ export const fetchProject = (projId) => async dispatch => {
     const response = await axios.get(`/api/projects/${projId}`);
 
     
-    dispatch({ type: FETCH_PROJECT, payload: response.data.projects[0] });
+    dispatch({ type: FETCH_PROJECT, payload: response.data });
 }
 
 export const fetchProjects = () => async dispatch => {
     const response = await axios.get('/api/projects');
 
-    dispatch({ type: FETCH_PROJECTS, payload: response.data.projects });
+    dispatch({ type: FETCH_PROJECTS, payload: response.data });
 };
 
 export const createProject = (formValues) => async (dispatch, getState) => {
@@ -135,15 +135,23 @@ export const deleteProject = (projId) => async dispatch => {
 // actions for Bugs
 
 export const fetchBug = (bugId) => async dispatch => {
+    console.log(bugId)
     const response = await axios.get(`/api/bugs/${bugId}`);
+    console.log(response.data);
 
-    dispatch({ type: FETCH_BUG, payload: response.data.bug });
+    dispatch({ type: FETCH_BUG, payload: response.data });
 };
 
 export const fetchBugs = () => async dispatch => {
-    const response = await axios.get("/api/bugs");
+    const response = await axios.get(`/api/bugs`);
 
-    dispatch({ type: FETCH_BUGS, payload: response.data.bugs });
+    dispatch({ type: FETCH_BUGS, payload: response.data });
+};
+
+export const fetchBugsByProject = (projId) => async dispatch => {
+    const response = await axios.get(`/api/bugs/project/${projId}`);
+
+    dispatch({ type: FETCH_BUGS, payload: response.data });
 };
 
 export const createBug = (formValues, projId) => async (dispatch, getState) => {
@@ -166,7 +174,7 @@ export const createBug = (formValues, projId) => async (dispatch, getState) => {
 
 export const updateBug = (bugId, formValues) => async (dispatch, getState) => {
     const response = await axios.patch(`/api/bugs/${bugId}`, formValues);
-    let projId = getState().bug.undefined[0].project_id;
+    let projId = getState().bug.bug.project_id;
 
     dispatch({ type: UPDATE_BUG, payload: response.data });
     history.push(`/project/${projId}`);
@@ -184,12 +192,13 @@ export const deleteBug = (bugId) => async dispatch => {
 export const fetchComment = (commId) => async dispatch => {
     const response = await axios.get(`/api/comments/${commId}`);
 
-    dispatch({ type: FETCH_COMMENT, payload: response.data.comment });
+    dispatch({ type: FETCH_COMMENT, payload: response.data });
 };
 
-export const fetchComments = () => async dispatch => {
-    const response = await axios.get('/api/comments');
-
+export const fetchCommentsByBug = (commentId) => async dispatch => {
+    console.log(commentId)
+    const response = await axios.get(`/api/comments/bug/${commentId}`);
+    console.log(response.data);
     dispatch({ type: FETCH_COMMENTS, payload: response.data });
 };
 
@@ -213,7 +222,7 @@ export const updateComment = (commentId, formValues) => async (dispatch, getStat
 };
 
 export const deleteComment = (commentId) => async (dispatch, getState) => {
-    let bugId = getState().comm.undefined[0].bug_id;
+    let bugId = getState().comm.comment.bug_id;
     await axios.delete(`/api/comments/${commentId}`);
 
 

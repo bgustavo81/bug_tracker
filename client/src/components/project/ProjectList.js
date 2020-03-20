@@ -45,9 +45,8 @@ class ProjectList extends Component {
 
     
 
-    renderList() {
-        let proj = this.props.proj.flat();
-        return proj.map(project => {
+    renderList(projects) {
+        return projects.map(project => {
             return (
                 <div key={project.project_id} className="ListCard">
                     <div>
@@ -95,7 +94,7 @@ class ProjectList extends Component {
                         <div className="ListCreateButton">
                             {this.renderCreate()}
                         </div>
-                        <div className="ListArticles">{this.renderList()}</div>              
+                        <div className="ListArticles">{this.renderList(projects)}</div>              
                     </React.Fragment>
                 ) : (
                     <SkeletonBlock />
@@ -107,7 +106,7 @@ class ProjectList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        proj: Object.values(state.proj),
+        proj: state.proj.projects,
         auth: state.auth
     }
 }

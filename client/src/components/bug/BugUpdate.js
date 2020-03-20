@@ -15,15 +15,14 @@ class BugUpdate extends React.Component {
     }
 
     renderForm(bug) {
-        if (bug && Array.isArray(bug)) {
-            [bug] = bug;
+        if (bug) {
             return (
                 <div>
                     <h3 className="FormTitle">Edit your bug</h3>
                     <BugForm 
                         initialValues={bug}
                         onSubmit={this.onSubmit} 
-                        bug={bug}
+                        projId={bug.project_id}
                     />
                 </div>
             )
@@ -41,7 +40,6 @@ class BugUpdate extends React.Component {
 
     render() {
         let bug = this.props.bug;
-
         return (
             <div>
                 {this.renderForm(bug)}
@@ -52,7 +50,7 @@ class BugUpdate extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        bug: state.bug[ownProps.match.params.id],
+        bug: state.bug.bug,
     };
 };
 

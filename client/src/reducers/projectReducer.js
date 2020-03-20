@@ -7,18 +7,39 @@ import {
     DELETE_PROJECT
 } from '../actions/type';
 
-export default (state = {}, action) => {
-    switch (action.type) {
+const initialState = {
+    projects: [],
+    project: null
+}
+
+export default (state = initialState, action) => {
+    const {type, payload} = action;
+
+    switch (type) {
         case FETCH_PROJECT:
-            return { ...state, [action.payload.id]: action.payload};
-        case FETCH_PROJECTS: 
-            return { ...state, [action.payload.id]: action.payload};
-        case CREATE_PROJECT:   
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                project: payload
+            };
+        case FETCH_PROJECTS:
+            return { 
+                ...state, 
+                projects: payload 
+            };
+        case CREATE_PROJECT:
+            return { 
+                ...state, 
+                projects: [...state.projects, payload]
+            };
         case UPDATE_PROJECT:
-            return { ...state, [action.payload.id]: action.payload};
-        case DELETE_PROJECT:
-            return _.omit(state, action.payload);
+            return { 
+                ...state, 
+                projects: [...state.projects, payload]
+            };
+        case DELETE_PROJECT: 
+            return  {
+                projects: state.projects.filter(project => project.project_id !== payload)
+            }
         default: 
             return state;
     }

@@ -10,12 +10,19 @@ module.exports = class Project {
         console.log(userId, title, content, deadline)
     }
 
+    static getProjectById(projId) {
+        return pool.query(
+            `SELECT * FROM projects WHERE project_id = $1`,
+            [projId]
+        );
+    };
+
     static getProject(projId) {
         return pool.query(
             'SELECT * FROM projects WHERE project_id = $1',
             [projId]
-        )
-    }
+        );
+    };
 
     static getProjects() {
         return pool.query(

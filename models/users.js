@@ -9,6 +9,13 @@ module.exports = class User {
         this.password = password;
     }
 
+    static getUserById(userId) {
+        return pool.query(
+            `SELECT * FROM users WHERE user_id = $1 LIMIT 1`,
+            [userId]
+        );
+    };
+
     static getUser(userId) {
         return pool.query(
             'SELECT * FROM users where user_id = $1',

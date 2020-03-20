@@ -15,8 +15,7 @@ class CommentUpdate extends React.Component {
     }
 
     renderForm(comm) {
-        if (comm && Array.isArray(comm)) {
-            [comm] = comm;
+        if (comm) {
             return(
                 <div>
                     <h3 className="FormTitle">Edit comment</h3>
@@ -41,7 +40,6 @@ class CommentUpdate extends React.Component {
 
     render() {
         let comm = this.props.comm;
-
         return (
             <div>
                 {this.renderForm(comm)}
@@ -52,7 +50,7 @@ class CommentUpdate extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        comm: state.comm[ownProps.match.params.id]
+        comm: state.comm.comment
     }
 }
 

@@ -12,7 +12,8 @@ class UserUpdate extends React.Component {
 
     render() {
         let auth = this.props.auth;
-        if (!auth) {
+        let user = this.props.user;
+        if (!auth || !user) {
             return (
                 <div className="ShowSkeletonContainer">
                     <div>
@@ -22,12 +23,11 @@ class UserUpdate extends React.Component {
                 </div>
             )
         } else {
-            [auth] = auth;
                 return (
                     <div>
                         <h3 className="FormTitle">Edit your project</h3>
                         <UserForm 
-                            initialValues={auth}
+                            initialValues={user}
                             onSubmit={this.onSubmit} 
                         />
                     </div>
@@ -38,7 +38,8 @@ class UserUpdate extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.auth
+        auth: state.auth,
+        user: state.user.user
     };
 };
 

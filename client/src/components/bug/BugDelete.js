@@ -42,7 +42,6 @@ class BugDelete extends React.Component {
         if (!bug) {
             return <div className="DeleteModalContainer"></div>
         }
-        [bug] = bug;
         return (
             <DeleteBugModal
                 title="Delete bug"
@@ -56,7 +55,7 @@ class BugDelete extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        bug: state.bug[ownProps.match.params.id]
+        bug: state.bug.bug
     }
 }
 

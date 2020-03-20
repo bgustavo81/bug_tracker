@@ -7,18 +7,39 @@ import {
     DELETE_BUG
 } from '../actions/type';
 
-export default (state = {}, action) => {
-    switch (action.type) {
+const initialState = {
+    bugs: [],
+    bug: null
+}
+
+export default (state = initialState, action) => {
+    const {type, payload} = action;
+
+    switch (type) {
         case FETCH_BUG:
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                bug: payload
+            };
         case FETCH_BUGS:
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                bugs: payload 
+            };
         case CREATE_BUG:
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                bugs: [...state.bugs, payload]
+            };
         case UPDATE_BUG:
-            return { ...state, [action.payload.id]: action.payload};
-        case DELETE_BUG:
-            return _.omit(state, action.payload);
+            return { 
+                ...state, 
+                bugs: [...state.bugs, payload]
+            };
+        case DELETE_BUG: 
+            return  {
+                bugs: state.bugs.filter(bug => bug.bug_id !== payload)
+            }
         default: 
             return state;
     }

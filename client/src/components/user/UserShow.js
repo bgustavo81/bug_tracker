@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import { fetchUser } from '../../actions';
+import { fetchUser } from '../../actions';
 import Skeleton from '@material-ui/lab/Skeleton';
 import '../../styles/UserShowStyles.css';
 import { Button } from '@material-ui/core';
 
 class UserShow extends React.Component {
+
+    componentDidMount() {
+        this.props.fetchUser(this.props.match.params.userId);
+    }
 
     renderAdmin(auth) {
         switch(auth) {
@@ -22,7 +26,7 @@ class UserShow extends React.Component {
                         <div>
                             { auth ? (
                                 <div className="UserButtons">
-                                    <Link to={`/user/update/${auth.user_id}`} style={{ textDecoration: 'none' }}>
+                                    <Link to={`/user/update/${auth[0].user_id}`} style={{ textDecoration: 'none' }}>
                                         <Button color="primary">
                                             Edit
                                         </Button>
@@ -43,7 +47,7 @@ class UserShow extends React.Component {
     render() {
         let auth = this.props.auth;
         let user = this.props.user;
-        if (!auth) {
+        if (!auth || !user) {
             return (
                 <div className="ShowSkeletonContainer">
                     <div>
@@ -53,16 +57,14 @@ class UserShow extends React.Component {
                 </div>        
             )
         }
-        [auth] = auth;
-        [user] = user;
         return (
             <div className="UserShowWrapper">
                 <div className="UserShowContainer">
-                    <h3>Manage your account {auth.first_name}</h3>
-                    <p>First Name: {auth.first_name}</p>
-                    <p>Last Name: {auth.last_name}</p>
-                    <p>Email: {auth.email}</p>
-                    <p>Credits: {auth.credits}</p>
+                    <h3>Manage your account {user.first_name}</h3>
+                    <p>First Name: {user.first_name}</p>
+                    <p>Last Name: {user.last_name}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Credits: {auth[0].credits}</p>
                 {this.renderAdmin(auth)}
                 </div>
             </div>
@@ -72,12 +74,12 @@ class UserShow extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: Object.values(state.user),
+        user: state.user.user,
         auth: state.auth
     }
 }
 
 export default connect(
-    mapStateToProps
-    // {fetchUser}
+    mapStateToProps,
+    {fetchUser}
 )(UserShow);

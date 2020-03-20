@@ -7,19 +7,41 @@ import {
     DELETE_COMMENT
 } from '../actions/type';
 
-export default (state = {}, action) => {
-    switch (action.type) {
+const initialState = {
+    comments: [],
+    comment: null
+}
+
+export default (state = initialState, action) => {
+    const {type, payload} = action;
+
+    switch (type) {
         case FETCH_COMMENT:
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                comment: payload
+            };
         case FETCH_COMMENTS:
-            return { ...state, ..._.mapKeys(action.payload, 'commId')};
+            return { 
+                ...state, 
+                comments: payload 
+            };
         case CREATE_COMMENT:
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                comments: [...state.comments, payload]
+            };
         case UPDATE_COMMENT:
-            return { ...state, [action.payload.id]: action.payload};
-        case DELETE_COMMENT:
-            return _.omit(state, action.payload);
+            return { 
+                ...state, 
+                comments: [...state.comments, payload]
+            };
+        case DELETE_COMMENT: 
+            return  {
+                comments: state.comments.filter(comment => comment.comment_id !== payload)
+            }
         default: 
             return state;
     }
 };
+

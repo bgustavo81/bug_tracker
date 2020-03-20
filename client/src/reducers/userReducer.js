@@ -7,19 +7,40 @@ import {
     DELETE_USER
 } from '../actions/type';
 
-export default (state = {}, action) => {
-    switch (action.type) {
+const initialState = {
+    users: [],
+    user: null
+}
+
+export default (state = initialState, action) => {
+    const {type, payload} = action;
+
+    switch (type) {
         case FETCH_USER:
-            return { ...state, [action.payload.id]: action.payload};
-        case FETCH_USERS: 
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                user: payload
+            };
+        case FETCH_USERS:
+            return { 
+                ...state, 
+                users: payload 
+            };
         case CREATE_USER:
-            return { ...state, [action.payload.id]: action.payload};
+            return { 
+                ...state, 
+                users: [...state.users, payload]
+            };
         case UPDATE_USER:
-            return { ...state, [action.payload.id]: action.payload};
-        case DELETE_USER:
-            return _.omit(state, action.payload);
+            return { 
+                ...state, 
+                users: [...state.users, payload]
+            };
+        case DELETE_USER: 
+            return  {
+                users: state.users.filter(user => user.user_id !== payload)
+            }
         default: 
             return state;
     }
-}
+};

@@ -62,7 +62,7 @@ const CommentForm = props => {
                 onClick={reset}>
                 Reset
             </Button>
-            <Link to={`/bug/${comm}`} style={{ textDecoration: "none" }}>
+            <Link to={`/bug/${comm.bug_id}`} style={{ textDecoration: "none" }}>
                 <Button variant="outlined" size="large">
                     Cancel
                 </Button>

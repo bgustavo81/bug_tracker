@@ -19,8 +19,6 @@ router.get(
     '/google/callback', 
     passport.authenticate('google'),
     (req, res, next) => {
-        console.log(req.user)
-        console.log(req.session)
         res.redirect("/projects");
 });
 
@@ -35,8 +33,6 @@ router.get(
     '/facebook/callback', 
     passport.authenticate('facebook'),
     (req, res, next) => {
-        console.log(req.user);
-        console.log(req.session);
         res.redirect("/projects");
 });
 

@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchBug, fetchComments } from '../../actions/index';
+import { fetchBug, fetchCommentsByBug } from '../../actions/index';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Button } from '@material-ui/core';
 import SkeletonBlock from '../Skeleton';
@@ -13,7 +13,7 @@ import '../../styles/ProjectShowStyles.css';
 class BugShow extends Component {
     componentDidMount() {
         this.props.fetchBug(this.props.match.params.bugId);
-        this.props.fetchComments();
+        this.props.fetchCommentsByBug(this.props.match.params.bugId);
     }
 
     renderAdmin(comm) {
@@ -53,11 +53,10 @@ class BugShow extends Component {
 
 
     renderList() {
-        let comment = this.props.comm.flat();
+        let comments = this.props.comm;
         let bugId = this.props.match.params.bugId;
         bugId = parseInt(bugId);
-        comment = comment.filter(comm => comm.comment_id !== bugId);
-        return comment.map(comm => {
+        return comments.map(comm => {
             return (
                 <div key={comm.comment_id} className="ListCard">
                 <div>
@@ -65,7 +64,7 @@ class BugShow extends Component {
                     </h4>
                     <div className="ProjectListCardContent">
                         <p><b>Update:</b> {comm.content}</p>
-                        <p><b>Created:</b> <Moment date={comment.created} format="LLL"/></p>
+                        <p><b>Created:</b> <Moment date={comm.created} format="LLL"/></p>
                         <p><b>Author:</b> {comm.author_email}</p>
                     </div>
                 </div>
@@ -137,7 +136,7 @@ class BugShow extends Component {
     }
 
     render() {
-        const [bug] = this.props.bug.flat();
+        const bug = this.props.bug;
         return (
             <div className="ListContainer">
                 <div className="ShowContainer">
@@ -160,13 +159,13 @@ class BugShow extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        comm: Object.values(state.comm),
-        bug: Object.values(state.bug),
+        comm: state.comm.comments,
+        bug: state.bug.bug,
         auth: state.auth
     }
 }
 
 export default connect (
     mapStateToProps,
-    { fetchBug, fetchComments }
+    { fetchBug, fetchCommentsByBug }
 )(BugShow)

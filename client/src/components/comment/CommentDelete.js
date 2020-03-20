@@ -42,7 +42,6 @@ class CommentDelete extends React.Component {
         if (!comm) {
             return <div className="DeleteModalContainer"></div>
         }
-        [comm] = comm;
         return (
             <DeleteCommentModal
                 title="Delete Comment"
@@ -56,7 +55,7 @@ class CommentDelete extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        comm: state.comm[ownProps.match.params.id]
+        comm: state.comm.comment
     };
 };
 

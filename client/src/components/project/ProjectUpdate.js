@@ -16,7 +16,7 @@ class ProjectUpdate extends React.Component {
 
     render() {
         const proj = this.props.proj;
-        if (!Array.isArray(proj)) {
+        if (proj) {
             return (
                 <div>
                     <h3 className="FormTitle">Edit your project</h3>
@@ -41,7 +41,7 @@ class ProjectUpdate extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        proj: state.proj[ownProps.match.params.id],
+        proj: state.proj.project,
     };
 };
 

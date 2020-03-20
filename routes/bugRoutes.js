@@ -22,11 +22,8 @@ const transporter = nodemailer.createTransport(
 router.get('/:bugId', auth, async (req, res, next) => {
     let bugId = req.params.bugId;
     try {
-        const result = await Bug.getBug(bugId);
-        res.status(200).json({
-            message: `message ${bugId} was retrieved`,
-            bug: result.rows
-        });
+        const result = await Bug.getBugById(bugId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -38,13 +35,10 @@ router.get('/:bugId', auth, async (req, res, next) => {
 // @route    GET api/bugs
 // @desc     get all bugs
 // @access   Private
-router.get('/', auth, async (req, res, next) => {
+router.get('/project/:bugId', auth, async (req, res, next) => {
     try {
-        const result =  await Bug.getBugs();
-        res.status(200).json({
-            message: 'Fetched posts successfully.',
-            bugs: result.rows
-        })
+        const result =  await Bug.getBugsByProject(req.params.bugId);
+        res.status(200).json(result.rows)
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -52,6 +46,24 @@ router.get('/', auth, async (req, res, next) => {
         next(err);
     }
 });
+
+// @route    GET api/bugs
+// @desc     get all bugs for user by email
+// @access   Private
+router.get('/', auth, async (req, res, next) => {
+    try {
+        const user = await User.getUserById(req.session.passport.user);
+        const dev_email = user.rows[0].email;
+        const result =  await Bug.getBugsByEmail(dev_email);
+        res.status(200).json(result.rows)
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+});
+
 
 // @route    Post api/bugs
 // @desc     Create new bug
@@ -94,10 +106,7 @@ router.post('/', auth, async (req, res, next) => {
         User.removeCreditsFromUser(credits, userId);
 
         const result = await bug.createBug();
-        res.status(201).json({
-            message: 'Created!',
-            bug: result.rows
-        });
+        res.status(201).end();
         transporter.sendMail({
             to: devEmail,
             from: 'no-reply@bug_trackerly.com',
@@ -148,13 +157,13 @@ router.patch('/:bugId', auth, async (req, res, next) => {
     const devEmail = req.body.dev_email;
     const bugId = req.params.bugId;
     try {
-        const bug = await Bug.getBug(bugId);
+        const bug = await Bug.getBugById(bugId);
         if (!bug) {
             const error = new Error('Could not find bug');
             error.statusCode = 404;
             throw error;
         }
-        const result = await Bug.updateBug(
+        await Bug.updateBug(
             bugTitle,
             priority,
             status,
@@ -164,10 +173,9 @@ router.patch('/:bugId', auth, async (req, res, next) => {
             devEmail,
             bugId
         );
-        res.status(200).json({
-            message: "Updated!",
-            bug: result.rows
-        });
+
+        const result = await Bug.getBugById(bugId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -189,9 +197,7 @@ router.delete('/:bugId', auth, async (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
-            res.status(200).json({
-                message: "Deleted!"
-            });
+            res.status(200).json(bugId);
         })
     } catch (err) {
         if (!err.statusCode) {

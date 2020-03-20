@@ -32,7 +32,7 @@ class BugList extends Component {
     }
 
     renderList() {
-        let bug = this.props.bug.flat();
+        let bugs = this.props.bug;
         const auth = this.props.auth;
         switch(auth) {
             case null: 
@@ -47,8 +47,8 @@ class BugList extends Component {
                     </div>                
                 )
             default:
-                bug = bug.filter(bug => bug.dev_email === auth[0].email);
-                return bug.map(bug => {
+                bugs.filter(bug => bug.dev_email === auth[0].email);
+                return bugs.map(bug => {
                     return (
                         <div key={bug.bug_id} className="ListCard">
                             <div>
@@ -100,7 +100,7 @@ class BugList extends Component {
         return (
             <div className="ProjectShowContainer">
                 <div className="ListContainer">
-                    <h2 className="ShowTitle">My List of Bugs</h2>
+                    <h2 className="ShowTitle">Bugs To Do</h2>
                     <div className="ShowContainer">
                         {this.renderList()}
                     </div>
@@ -113,7 +113,7 @@ class BugList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        bug: Object.values(state.bug),
+        bug: state.bug.bugs,
         auth: state.auth
     }
 }

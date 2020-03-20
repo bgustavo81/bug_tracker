@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchProject, fetchBugs } from '../../actions/index';
+import { fetchProject, fetchBugsByProject } from '../../actions/index';
 import Skeleton from '@material-ui/lab/Skeleton';
 import '../../styles/ProjectShowStyles.css';
 import { Button } from '@material-ui/core';
@@ -13,7 +13,7 @@ import Payments from '../Payments';
 class ProjectShow extends Component {
     componentDidMount() {
         this.props.fetchProject(this.props.match.params.projId);
-        this.props.fetchBugs();
+        this.props.fetchBugsByProject(this.props.match.params.projId);
     }
 
     renderAdmin(bug) {
@@ -65,11 +65,10 @@ class ProjectShow extends Component {
     }
 
     renderList() {
-        let bug = this.props.bug.flat();
+        let bugs = this.props.bug;
         let projId = this.props.match.params.projId;
         projId = parseInt(projId);
-        bug = bug.filter(bug => bug.project_id === projId);
-        return bug.map(bug => {
+        return bugs.map(bug => {
             return (
                 <div key={bug.bug_id} className="ListCard">
                     <div>
@@ -157,7 +156,7 @@ class ProjectShow extends Component {
     }
 
     render() {
-        const [ proj ] = this.props.proj;
+        const proj = this.props.proj;
         return (
             <div className="ListContainer">
                 <div className="ShowContainer">
@@ -181,13 +180,13 @@ class ProjectShow extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        proj: Object.values(state.proj),
-        bug: Object.values(state.bug),
+        proj: state.proj.project,
+        bug: state.bug.bugs,
         auth: state.auth
     }
 }
 
 export default connect (
     mapStateToProps,
-    {fetchProject, fetchBugs}
+    {fetchProject, fetchBugsByProject}
 )(ProjectShow);

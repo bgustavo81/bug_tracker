@@ -42,7 +42,6 @@ const renderTextField = ({
 
 const ProjectForm = props => {
     const { handleSubmit, pristine, submitting } = props;
-    console.log(props.initialValues);
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off" className="SignInForm">

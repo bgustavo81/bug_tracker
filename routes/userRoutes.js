@@ -9,11 +9,8 @@ const User = require('../models/users');
 router.get('/:userId', auth, async (req, res, next) => {
     const userId = req.params.userId;
     try {
-        const result = await User.getUser(userId);
-        let status = res.status(200).json({
-            message: `user ${userId} was retrieved`,
-            user: result.rows
-        });
+        const result = await User.getUserById(userId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -28,10 +25,7 @@ router.get('/:userId', auth, async (req, res, next) => {
 router.get('/', auth, async (req, res, next) => {
     try {
         const result = await User.getUsers();
-        let status = res.status(200).json({
-            message: 'Fetched users sucessfully.',
-            users: result.rows
-        });
+        res.status(200).json(result.rows);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -54,11 +48,8 @@ router.post('/', auth, async (req, res, next) => {
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
-        const result = await user.createUser();
-        res.status(201).json({
-            message: "created user",
-            user: result.rows
-        });
+        await user.createUser();
+        res.status(201).end();
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -85,11 +76,9 @@ router.patch('/:userId', auth, async (req, res, next) => {
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
-        const result = await User.updateUser(firstName, lastName, email, userId);
-        res.status(200).json({
-            message: "Updated User!",
-            user: result.rows[0]
-        });
+        await User.updateUser(firstName, lastName, email, userId);
+        const result = await User.getUserById(userId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -111,10 +100,7 @@ router.delete('/users/:userId', auth, async (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                res.status(200).json({
-                    message: "Deleted!",
-                    user: result.rows
-                });
+                res.status(200).json(userId);
             })
     } catch (err) {
         if (!err.statusCode) {

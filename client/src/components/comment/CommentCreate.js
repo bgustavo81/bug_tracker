@@ -13,7 +13,6 @@ class CommentCreate extends Component {
     
     render() {
         let bugId = this.props.match.params.bugId;
-        console.log(bugId);
         return (
             <div>
                 <h3 className="FormTitle">Write a comment</h3>

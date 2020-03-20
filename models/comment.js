@@ -9,6 +9,13 @@ module.exports = class Comment {
         this.email = email;
     }
 
+    static getCommentById(commentId) {
+        return pool.query(
+            `SELECT * FROM comments WHERE comment_id = $1 LIMIT 1`,
+            [commentId]
+        )
+    }
+
     static getComment(commentId) {
         return pool.query(
             'SELECT * FROM comments WHERE comment_id = $1',
@@ -16,9 +23,10 @@ module.exports = class Comment {
         )
     }
 
-    static getComments() {
+    static getCommentsByBug(bugId) {
         return pool.query(
-            'SELECT * FROM comments'
+            'SELECT * FROM comments WHERE bug_id = $1',
+            [bugId]
         )
     }
 

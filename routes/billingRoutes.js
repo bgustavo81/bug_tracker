@@ -10,7 +10,6 @@ const stripe = require("stripe")(keys.stripeSecretKey);
 // @desc     get credits
 // @access   Private
 router.post("/", auth, async (req, res, next) => {
-    console.log(req.body);
     await stripe.charges.create({
         amount: 500,
         currency: 'usd',
@@ -24,7 +23,6 @@ router.post("/", auth, async (req, res, next) => {
         await User.addCreditsToUser(credits, userId);
         req.user.rows[0].credits += 5;
         user = req.user.rows
-        console.log(user);
         res.status(200).send(user);
     } catch (err) {
         if (!err.statusCode) {

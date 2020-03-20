@@ -9,11 +9,8 @@ const Comment = require("../models/comment");
 router.get('/:commentId', auth, async (req, res, next) => {
     const commentId = req.params.commentId;
     try {
-        const result = await Comment.getComment(commentId);
-        let status = res.status(200).json({
-            message: `post ${commentId} was retrieved`,
-            comment: result.rows 
-        });
+        const result = await Comment.getCommentById(commentId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -21,16 +18,14 @@ router.get('/:commentId', auth, async (req, res, next) => {
     }
     next(err);
 });
-// @route    GET api/comments/:commentId
-// @desc     Get a comment by Id
+// @route    GET api/comments
+// @desc     Get comments
 // @access   Private
-router.get('/', auth, async (req, res, next) => {
+router.get('/bug/:commentId', auth, async (req, res, next) => {
+    const commentId = parseInt(req.params.commentId);
     try {
-        const result = await Comment.getComments();
-        let status = res.status(200).json({
-            message: 'Fetch comments successfully.',
-            comment: result.rows
-        });
+        const result = await Comment.getCommentsByBug(commentId);
+        res.status(200).json(result.rows);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -38,8 +33,8 @@ router.get('/', auth, async (req, res, next) => {
         next(err);
     }
 });
-// @route    GET api/comments/:commentId
-// @desc     Get a comment by Id
+// @route    POST api/comments/:commentId
+// @desc     Post a comment 
 // @access   Private
 router.post('/', auth, async (req, res, next) => {
     const userId = req.body.author;
@@ -48,11 +43,8 @@ router.post('/', auth, async (req, res, next) => {
     const bugId = req.body.bugId;
     const comment = new Comment(null, userId, content, bugId, email);
     try {
-        const result = await comment.createComment();
-        res.status(201).json({
-            message: "Created post!",
-            comment: result.rows
-        });
+        await comment.createComment();
+        res.status(201).end();
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -60,24 +52,22 @@ router.post('/', auth, async (req, res, next) => {
         next(err);
     }
 });
-// @route    GET api/comments/:commentId
-// @desc     Get a comment by Id
+// @route    PATCH api/comments/:commentId
+// @desc     Update a comment by Id
 // @access   Private
 router.patch('/:commentId', auth, async (req, res, next) => {
     const commentId = req.params.commentId;
     const content = req.body.content;
     try {
-        const comment = await Comment.getComment(commentId);
-        if (!comment) {
+        const comment = await Comment.getCommentById(commentId);
+        if (comment.rows.length === 0) {
             const error = new Error('Could not find post');
             error.statusCode = 404;
             throw error;
         }
-        const result = await Comment.updateComment(content, commentId);
-        res.status(200).json({
-            message: "Updated!",
-            comment: result.rows
-        });
+        await Comment.updateComment(content, commentId);
+        const result = await Comment.getCommentById(commentId);
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -98,10 +88,7 @@ router.delete('/:commentId', auth, async (req, res, next) => {
                     error.statusCode = 404;
                     throw error;
                 }
-                res.status(200).json({
-                    message: "Deleted!",
-                    comment: result.rows
-                });
+                res.status(200).json(commentId);
             })
     } catch (err) {
         if (!err.statusCode) {
