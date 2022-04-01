@@ -1,0 +1,62 @@
+.nav {
+    height: 60px;
+    line-height: 60px;
+    background-color: #197EAB;
+    position: relative;
+    margin: 0px;
+    padding-right: 16px;
+    padding-left: 16px;
+    display: flex;
+    top: 0;
+    left: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.icon {
+    margin: 0 16px;
+}
+
+.link, a {
+    text-decoration: none;
+    color: white;
+}
+
+
+.trackerly {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 24px;
+    padding-right: 24px;
+}
+
+.dropdown {
+    margin-right: 12px;
+    font-size: 18px;
+    padding: 8px;
+}
+
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #197EAB;
+    min-width: 80px;
+    z-index: 1;
+    padding: 12px;
+    top: 42px;
+}
+
+.dropdownContent a {
+    display: block;
+    text-align: left;
+    padding: 8px;
+}
+
+.dropdownContent a:hover {
+    background-color: #137199;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
+}

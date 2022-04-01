@@ -1,0 +1,20 @@
+module.exports = {
+    googleClientID: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    githubApiKey: process.env.GITHUB_API_KEY,
+    githubSecretApiKey: process.env.GITHUB_SECRET_API_KEY,
+    twitterApiSecretKey: process.env.TWITTER_SECRET_API_KEY,
+    facebookApiKey: process.env.FACEBOOK_API_KEY,
+    facebookApiSecretKey: process.env.FACEBOOK_API_SECRET_KEY,
+    cookieKey: process.env.COOKIE_KEY,
+    pgUser: process.env.PG_USER,
+    pgHost: process.env.PG_HOST,
+    pgDatabase: process.env.PG_DATABASE,
+    pgPassword: process.env.PG_PASSWORD,
+    stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+    sendgridApiKey: process.env.SENDGRID_API_KEY,
+    redirectDomain: process.env.REDIRECT_DOMAIN,
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY,
+    AWS_S3_ACCESS_SECRET_KEY: process.env.AWS_S3_ACCESS_SECRET_KEY
+};
