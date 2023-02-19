@@ -1,10 +1,10 @@
 const keys = require('../config/keys');
 const { Pool } = require('pg');
 const pool = new Pool({
-    user: keys.pgUser,
-    host: keys.pgHost,
-    database: keys.pgDatabase,
-    password: keys.pgPassword,
+    user: process.env.pgUser,
+    host: process.env.pgHost,
+    database: process.env.pgDatabase,
+    password: process.env.pgPassword,
     port: 5432,
     ssl: true
 });

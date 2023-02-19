@@ -1,4 +1,5 @@
 import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { fetchProject, updateProject } from '../../actions';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -21,7 +22,7 @@ class ProjectUpdate extends React.Component {
                 <div>
                     <h3 className="FormTitle">Edit your project</h3>
                     <ProjectForm 
-                        initialValues={proj}
+                        initialValues={proj[0]}
                         onSubmit={this.onSubmit} 
                     />
                 </div>
@@ -41,7 +42,7 @@ class ProjectUpdate extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        proj: state.proj.project,
+        proj: state.project.projects,
     };
 };
 

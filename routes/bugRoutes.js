@@ -11,7 +11,7 @@ const keys = require('../config/keys');
 const transporter = nodemailer.createTransport(
     sendgridTransport({
       auth: {
-        api_key: keys.sendgridApiKey
+        api_key: process.env.sendgridTransport
       }
     })
   );
@@ -52,7 +52,7 @@ router.get('/project/:bugId', auth, async (req, res, next) => {
 // @access   Private
 router.get('/', auth, async (req, res, next) => {
     try {
-        const user = await User.getUserById(req.session.passport.user);
+        const user = await User.getUserById(req.user.userId);
         const dev_email = user.rows[0].email;
         const result =  await Bug.getBugsByEmail(dev_email);
         res.status(200).json(result.rows)
@@ -118,7 +118,7 @@ router.post('/', auth, async (req, res, next) => {
                         <div>
                             <img 
                                 style="height: 240px;"
-                                src="https://foto-bucket-12345.s3.us-east-2.amazonaws.com/${req.body.imageUrl}" 
+                                src="https://my-foto-bucket-123.s3.us-east-2.amazonaws.com/${req.body.imageUrl}" 
                             />
                         </div>
                     <div>
@@ -126,7 +126,7 @@ router.post('/', auth, async (req, res, next) => {
                         <p><b>Status:</b> ${req.body.status}</p>
                         <p><b>Description:</b> ${req.body.bug_desc}</p>
                         <p><b>Deadline:</b> ${req.body.deadline}</p>
-                        <p>Access here: <a href="${keys.redirectDomain}/project/${req.body.projId}">${keys.redirectDomain}/project/${req.body.projId}</a></p>
+                        <p>Access here: <a href="${'http://localhost:3000'}/project/${req.body.projId}">${'http://localhost:3000'}/project/${req.body.projId}</a></p>
                     </div>
                 </div>
             `
@@ -156,6 +156,7 @@ router.patch('/:bugId', auth, async (req, res, next) => {
     const deadline = req.body.deadline;
     const devEmail = req.body.dev_email;
     const bugId = req.params.bugId;
+    console.log(req.body);
     try {
         const bug = await Bug.getBugById(bugId);
         if (!bug) {

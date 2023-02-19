@@ -60,14 +60,14 @@
 
 .ListContainer {
     min-height: 84vh;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     padding: 54px;
 }
 
 .ProjectListCardContent {
     position: relative;
     font-size: 20px;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     max-width: 720px;
     margin: 0 auto;
     word-wrap: break-word;

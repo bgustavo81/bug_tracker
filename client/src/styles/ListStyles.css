@@ -1,6 +1,6 @@
 .ListContainer {
     min-height: 86vh;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     padding: 54px 32px;
 }
 .ListTitle {
@@ -15,7 +15,7 @@
     margin: 0 auto;
 }
 .ListCard {
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     overflow: hidden;
     padding: 32px;
     margin: 42px 0;

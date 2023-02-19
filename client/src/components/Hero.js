@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect }  from 'react-redux';
 import Button from '@material-ui/core/Button';
-import "../styles/HeroStyles.css";
 
 class Hero extends Component {
     renderLink() {

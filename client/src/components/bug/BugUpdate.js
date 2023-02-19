@@ -23,6 +23,7 @@ class BugUpdate extends React.Component {
                         initialValues={bug}
                         onSubmit={this.onSubmit} 
                         projId={bug.project_id}
+                        match={this.props.match.path}
                     />
                 </div>
             )

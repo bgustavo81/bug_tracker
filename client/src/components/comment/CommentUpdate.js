@@ -50,7 +50,7 @@ class CommentUpdate extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        comm: state.comm.comment
+        comm: state.comment.comment
     }
 }
 

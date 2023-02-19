@@ -55,7 +55,7 @@ class ProjectDelete extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        proj: state.proj.project
+        proj: state.projects
     }
 }
 

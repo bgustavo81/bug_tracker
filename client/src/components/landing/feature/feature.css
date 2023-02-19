@@ -1,0 +1,78 @@
+.pt_features-container_feature {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+
+    margin: 1rem;
+}
+
+.pt_features-container_feature-title {
+    flex: 1;
+    max-width: 180px;
+    margin-right: 2rem;
+}
+
+.pt_features-container_feature-title h1 {
+    font-family: var(--font-family);
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    color: white;
+}
+
+.pt_features-container_feature-title div {
+    width: 38px;
+    height: 3px;
+        /* ff 3.6+ */
+        background:-moz-linear-gradient(90deg, rgba(235, 108, 250, 1) 0%, rgba(79, 128, 255, 1) 100%); 
+
+        /* safari 5.1+,chrome 10+ */
+        background:-webkit-linear-gradient(90deg, rgba(235, 108, 250, 1) 0%, rgba(79, 128, 255, 1) 100%);
+    
+        /* opera 11.10+ */
+        background:-o-linear-gradient(90deg, rgba(235, 108, 250, 1) 0%, rgba(79, 128, 255, 1) 100%);
+    
+        /* ie 6-9 */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F80FF', endColorstr='#EB6CFA', GradientType=0 );
+    
+        /* ie 10+ */
+        background:-ms-linear-gradient(90deg, rgba(235, 108, 250, 1) 0%, rgba(79, 128, 255, 1) 100%);
+    
+        /* global 94%+ browsers support */
+        background:linear-gradient(90deg, rgba(235, 108, 250, 1) 0%, rgba(79, 128, 255, 1) 100%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.25rem;
+}
+
+.pt_features-container_feature-text {
+    flex: 2;
+    max-width: 390px;
+    display: flex;
+}
+
+.pt_features-container_feature-text p {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: #099DFF;
+}
+
+@media screen and (max-width: 550px) {
+    .pt_features-container_feature-title h1 {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .pt_features-container_feature-text p {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .pt_features-container_feature {
+        margin: 1rem 0;
+    }
+}

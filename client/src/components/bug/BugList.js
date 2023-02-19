@@ -19,7 +19,7 @@ class BugList extends Component {
             return (
                 <div className="ImageShowContainer">
                     <Link to={`/bug/${bug.bug_id}`}>
-                        <img className="ImageShow" src={'https://foto-bucket-12345.s3.us-east-2.amazonaws.com/'+ bug.image} />
+                        <img className="ImageShow" src={"https://my-foto-bucket-123.s3.us-east-2.amazonaws.com/"+ bug.image} alt="image of issue"/>
                     </Link>
                 </div>
             );
@@ -47,7 +47,7 @@ class BugList extends Component {
                     </div>                
                 )
             default:
-                bugs.filter(bug => bug.dev_email === auth[0].email);
+                bugs.filter(bug => bug.dev_email === auth.user.email);
                 return bugs.map(bug => {
                     return (
                         <div key={bug.bug_id} className="ListCard">
@@ -72,7 +72,7 @@ class BugList extends Component {
                                     <Button>View</Button>
                                 </Link>
                             <div>
-                                { bug.author === auth[0].user_id ? (
+                                { bug.author === auth.user.user_id ? (
                                     <React.Fragment>
                                         <Link to={`/bug/update/${bug.bug_id}`} style={{ textDecoration: 'none' }}>
                                             <Button color="primary">

@@ -14,8 +14,9 @@ class ProjectList extends Component {
     }
 
     renderAdmin(project) {
-        const auth = this.props.auth;
-        switch(auth) {
+        const user_id = this.props.auth.user.user_id;
+        const proj_user_id = project.user_id;
+        switch(project) {
           case null:
             return;
           case false:
@@ -23,7 +24,7 @@ class ProjectList extends Component {
               <React.Fragment />
             )
           default: 
-            if (project.author === auth[0].user_id) {
+            if (proj_user_id === user_id) {
                 return (
                     <div>
                         <Link to={`/project/update/${project.project_id}`} style={{ textDecoration: 'none' }}>
@@ -106,8 +107,8 @@ class ProjectList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        proj: state.proj.projects,
-        auth: state.auth
+        auth: state.auth,
+        proj: state.project.projects
     }
 }
 

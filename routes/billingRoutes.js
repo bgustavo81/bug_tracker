@@ -16,14 +16,14 @@ router.post("/", auth, async (req, res, next) => {
         description: '$5 for 5 bugs',
         source: req.body.id
     })
-    const userId = req.user.rows[0].user_id;
-    let credits = req.user.rows[0].credits;
+    const userId = req.user.user_id;
+    let user = await User.getUserById(userId);
+    let credits = user.rows[0].credits;
     credits += 5;
     try {
         await User.addCreditsToUser(credits, userId);
-        req.user.rows[0].credits += 5;
-        user = req.user.rows
-        res.status(200).send(user);
+        user = await User.getUserById(userId);
+        res.status(200).send(user.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

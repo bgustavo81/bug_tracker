@@ -11,43 +11,43 @@ module.exports = class Comment {
 
     static getCommentById(commentId) {
         return pool.query(
-            `SELECT * FROM comments WHERE comment_id = $1 LIMIT 1`,
+            `SELECT * FROM bug_comments WHERE comment_id = $1 LIMIT 1`,
             [commentId]
         )
     }
 
     static getComment(commentId) {
         return pool.query(
-            'SELECT * FROM comments WHERE comment_id = $1',
+            'SELECT * FROM bug_comments WHERE comment_id = $1',
             [commentId]
         )
     }
 
     static getCommentsByBug(bugId) {
         return pool.query(
-            'SELECT * FROM comments WHERE bug_id = $1',
+            'SELECT * FROM bug_comments WHERE bug_id = $1 ORDER BY created_at DESC',
             [bugId]
         )
     }
 
     createComment() {
         return pool.query(
-            `INSERT INTO comments (author, author_email, content, bug_id)
+            `INSERT INTO bug_comments (user_id, content, bug_id, author_email)
                 VALUES ($1, $2, $3, $4)`,
-            [this.userId, this.email, this.content, this.bugId]
+            [this.userId, this.content, this.bugId, this.email]
         )
     }
 
     static updateComment(content, commentId) {
         return pool.query(
-            `UPDATE comments SET content = $1 WHERE comment_id = $2`,
+            `UPDATE bug_comments SET content = $1 WHERE comment_id = $2`,
             [content, commentId]
         )
     }
     
     static deleteComment(commentId) {
         return pool.query(
-            'DELETE FROM comments WHERE comment_id = $1',
+            'DELETE FROM bug_comments WHERE comment_id = $1',
             [commentId]
         )
     }

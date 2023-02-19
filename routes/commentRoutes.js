@@ -15,8 +15,8 @@ router.get('/:commentId', auth, async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        next(err);
     }
-    next(err);
 });
 // @route    GET api/comments
 // @desc     Get comments
@@ -61,12 +61,12 @@ router.patch('/:commentId', auth, async (req, res, next) => {
     try {
         const comment = await Comment.getCommentById(commentId);
         if (comment.rows.length === 0) {
-            const error = new Error('Could not find post');
+            const error = new Error('Could not find comment');
             error.statusCode = 404;
             throw error;
         }
         await Comment.updateComment(content, commentId);
-        const result = await Comment.getCommentById(commentId);
+        const result = await Comment.getCommentsByBug(req.body.bugId);
         res.status(200).json(result.rows[0]);
     } catch (err) {
         if (!err.statusCode) {
@@ -90,12 +90,12 @@ router.delete('/:commentId', auth, async (req, res, next) => {
                 }
                 res.status(200).json(commentId);
             })
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
+        } catch (err) {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
         }
-    }
-    next(err);
 });
 
 module.exports = router;

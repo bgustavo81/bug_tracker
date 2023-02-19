@@ -1,87 +1,86 @@
 const pool = require('../services/pool');
 
 module.exports = class User {
-    constructor(userId, firstName, lastName, email, password) {
+    constructor(userId, email, password, name) {
         this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.name = name;
     }
 
     static getUserById(userId) {
         return pool.query(
-            `SELECT * FROM users WHERE user_id = $1 LIMIT 1`,
+            `SELECT * FROM bug_users WHERE user_id = $1 LIMIT 1`,
             [userId]
         );
     };
 
     static getUser(userId) {
         return pool.query(
-            'SELECT * FROM users where user_id = $1',
+            'SELECT * FROM bug_users where user_id = $1',
             [userId]
         )
     }
 
     static getUserByEmail(email) {
         return pool.query(
-            'SELECT * FROM users where email = $1',
+            'SELECT * FROM bug_users where email = $1',
             [email]
         )
     }
 
     static getUserById(user_id) {
         return pool.query(
-            'SELECT * FROM users where user_id = $1',
+            'SELECT * FROM bug_users where user_id = $1',
             [user_id]
         )
     }
 
-    static getUsers() {
+    static getbug_Users() {
         return pool.query(
-            'SELECT * FROM users ORDER BY user_id DESC'
+            'SELECT * FROM bug_users ORDER BY user_id DESC'
         )
     }
 
     createUser() {
         return pool.query(
-            `INSERT INTO users (user_id, first_name, last_name, email)
+            `INSERT INTO bug_users (user_id, email, password, name)
                 VALUES ($1, $2, $3, $4)`,
-            [this.userId, this.firstName, this.lastName, this.email]
+            [this.userId, this.email, this.password, this.name]
         )
     }
 
     createLoginUser() {
         return pool.query(
-            `INSERT INTO users (user_id, first_name, last_name, email, password)
+            `INSERT INTO bug_users (user_id, first_name, last_name, email, password)
                 VALUES ($1, $2, $3, $4, $5)`,
-            [this.userId, this.firstName, this.lastName, this.email, this.password]
+            [this.userId, this.email, this.password, this.name]
         )
     }
 
-    static updateUser(firstName, lastName, email, userId) {
+    static updateUser(name, email, userId) {
         return pool.query(
-            `UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE user_id = $4`,
-            [firstName, lastName, email, userId]
+            `UPDATE bug_users SET name = $1 WHERE user_id = $2`,
+            [name, userId]
         )
     }
 
     static deleteUser(userId) {
         return pool.query(
-            'DELETE FROM users WHERE user_id = $1',
+            'DELETE FROM bug_users WHERE user_id = $1',
             [userId]
         )
     }
 
     static addCreditsToUser(credits, userId) {
         return pool.query(
-            `UPDATE users SET credits = $1 WHERE user_id = $2`, [credits, userId]
+            `UPDATE bug_users SET credits = $1 WHERE user_id = $2`, [credits, userId]
         )
     }
 
     static removeCreditsFromUser(credits, userId) {
         return pool.query(
-            `UPDATE users SET credits = $1 WHERE user_id = $2`, [credits, userId]
+            `UPDATE bug_users SET credits = $1 WHERE user_id = $2`, [credits, userId]
         )
     }
 };

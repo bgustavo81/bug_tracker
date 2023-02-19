@@ -52,7 +52,7 @@ class ProjectShow extends Component {
             return (
                 <div className="ImageShowContainer">
                     <Link to={`/bug/${bug.bug_id}`}>
-                        <img className="ImageShow" src={'https://foto-bucket-12345.s3.us-east-2.amazonaws.com/'+ bug.image} />
+                        <img className="ImageShow" src={'https://my-foto-bucket-123.s3.us-east-2.amazonaws.com/'+ bug.image} />
                     </Link>
                 </div>
             );
@@ -106,7 +106,7 @@ class ProjectShow extends Component {
             <div className="ListCreateButton">
             </div>
             )
-        } else if (auth[0].credits > 0)  {
+        } else if (auth.credits > 0)  {
             return (
             <div className="ListCreateButton">
                 <Link to={`/bug/new/${projId}`} style={{ textDecoration: 'none'}}>
@@ -132,7 +132,7 @@ class ProjectShow extends Component {
                         <div className="ShowContent">
                             <p><b>Description:</b> {proj.content}</p>
                             <p><b>Deadline:</b> {proj.deadline}</p>
-                            <p><b>Created:</b> <Moment date={proj.created} format="LLL"/></p>
+                            <p><b>Created:</b> <Moment date={proj.created_at} format="LLL"/></p>
 
                         </div>
 
@@ -180,9 +180,9 @@ class ProjectShow extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        proj: state.proj.project,
+        proj: state.project.project,
         bug: state.bug.bugs,
-        auth: state.auth
+        auth: state.auth.user
     }
 }
 

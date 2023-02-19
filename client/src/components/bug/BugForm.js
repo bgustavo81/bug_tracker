@@ -123,7 +123,7 @@ const renderSelectFieldPriority = ({
 
 
 const BugForm = props => {
-    const { handleSubmit, pristine, reset, submitting, classes, projId } = props;
+  const { handleSubmit, pristine, reset, submitting, classes, projId, match } = props;
     return (
         <form onSubmit={handleSubmit} className="Form">
         <div>
@@ -150,7 +150,6 @@ const BugForm = props => {
             label="Priority"
             >
             <option value="" />
-            <option value={'Emergency'}>Emergency</option>
             <option value={'High Priority'}>High Priority</option>
             <option value={'Moderate Priority'}>Moderate Priority</option>
             <option value={'Low Priority'}>Low Priority</option>
@@ -186,11 +185,13 @@ const BugForm = props => {
             />
         </div>
         <div>
-            <Field
-                name="image"
-                component={ImagePicker}
-                label="Select an Image"
-            />
+          { match ? <></> :
+              <Field
+                  name="image"
+                  component={ImagePicker}
+                  label="Select an Image"
+              />
+          }
         </div>
         <Button
                 variant="outlined"

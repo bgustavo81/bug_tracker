@@ -26,7 +26,7 @@ class BugShow extends Component {
                     <React.Fragment />
                 )
             default: 
-                if (comm.author === auth[0].user_id) {
+                if (comm.user_id === auth.user.user_id) {
                     return (
                         <div>
                             { auth ? (
@@ -93,7 +93,7 @@ class BugShow extends Component {
         if (bug.image) {
             return (
                 <div className="ImageShowContainer">
-                    <img className="ImageShow" src={'https://foto-bucket-12345.s3.us-east-2.amazonaws.com/'+ bug.image} />
+                    <img className="ImageShow" src={"https://my-foto-bucket-123.s3.us-east-2.amazonaws.com/"+ bug.image} />
                 </div>
             );
         }
@@ -159,7 +159,7 @@ class BugShow extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        comm: state.comm.comments,
+        comm: state.comment.comments,
         bug: state.bug.bug,
         auth: state.auth
     }

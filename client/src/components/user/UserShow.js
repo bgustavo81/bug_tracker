@@ -13,6 +13,7 @@ class UserShow extends React.Component {
     }
 
     renderAdmin(auth) {
+        console.log(auth);
         switch(auth) {
             case null:
                 return;
@@ -26,11 +27,11 @@ class UserShow extends React.Component {
                         <div>
                             { auth ? (
                                 <div className="UserButtons">
-                                    <Link to={`/user/update/${auth[0].user_id}`} style={{ textDecoration: 'none' }}>
+                                    {/* <Link to={`/user/update/${auth.user_id}`} style={{ textDecoration: 'none' }}>
                                         <Button color="primary">
                                             Edit
                                         </Button>
-                                    </Link>
+                                    </Link> */}
                                     <Link to={`/projects`} style={{ textDecoration: 'none' }}>
                                         <Button>
                                             Cancel
@@ -46,8 +47,7 @@ class UserShow extends React.Component {
 
     render() {
         let auth = this.props.auth;
-        let user = this.props.user;
-        if (!auth || !user) {
+        if (!auth) {
             return (
                 <div className="ShowSkeletonContainer">
                     <div>
@@ -60,11 +60,9 @@ class UserShow extends React.Component {
         return (
             <div className="UserShowWrapper">
                 <div className="UserShowContainer">
-                    <h3>Manage your account {user.first_name}</h3>
-                    <p>First Name: {user.first_name}</p>
-                    <p>Last Name: {user.last_name}</p>
-                    <p>Email: {user.email}</p>
-                    <p>Credits: {auth[0].credits}</p>
+                    <h3>View your account {auth.name}</h3>
+                    <p>Email: {auth.email}</p>
+                    <p>Credits: {auth.credits}</p>
                 {this.renderAdmin(auth)}
                 </div>
             </div>
@@ -74,8 +72,7 @@ class UserShow extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user,
-        auth: state.auth
+        auth: state.auth.user
     }
 }
 

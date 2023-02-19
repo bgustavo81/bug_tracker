@@ -27,28 +27,28 @@ module.exports = class Bug {
 
     static getBugById(bugId) {
         return pool.query(
-            `SELECT * FROM bugs WHERE bug_id = $1 LIMIT 1`,
+            `SELECT * FROM bug_bugs WHERE bug_id = $1 LIMIT 1`,
             [bugId]
         );
     };
 
     static getBugsByProject(projId) {
         return pool.query(
-            'SELECT * FROM bugs WHERE project_id = $1',
+            'SELECT * FROM bug_bugs WHERE project_id = $1',
             [projId]
         );
     };
 
     static getBugsByEmail(dev_email) {
         return pool.query(
-            'SELECT * FROM bugs WHERE dev_email = $1 ORDER BY bug_id DESC',
+            'SELECT * FROM bug_bugs WHERE dev_email = $1 ORDER BY bug_id DESC',
             [dev_email]
         );
     };
 
     createBug() {
         return pool.query(
-            `INSERT INTO bugs (bug_title, priority, status, bug_desc, image, deadline, author, dev_email, project_id)
+            `INSERT INTO bug_bugs (bug_title, priority, status, bug_desc, image, deadline, author, dev_email, project_id)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
             [
                 this.bugTitle, 
@@ -66,7 +66,7 @@ module.exports = class Bug {
 
     static updateBug(bugTitle, priority, status, bugDesc, image, deadline, devEmail, bugId) {
         return pool.query(
-            `UPDATE bugs SET 
+            `UPDATE bug_bugs SET 
                 bug_title = $1,
                 priority = $2,
                 status = $3,
@@ -81,7 +81,7 @@ module.exports = class Bug {
 
     static deleteBug(bugId) {
         return pool.query(
-            'DELETE FROM bugs WHERE bug_id = $1',
+            'DELETE FROM bug_bugs WHERE bug_id = $1',
             [bugId]
         )
     }
