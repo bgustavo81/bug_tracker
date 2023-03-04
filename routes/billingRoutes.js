@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require("../middlewares/requireLogin");
 const User = require('../models/users');
 const keys = require('../config/keys');
-const stripe = require("stripe")(keys.stripeSecretKey);
+const stripe = require("stripe")(process.env.stripeSecretKey);
 
 
 // @route    GET api/billing
