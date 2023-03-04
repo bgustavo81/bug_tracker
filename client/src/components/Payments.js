@@ -13,7 +13,7 @@ class Payments extends Component {
                 description="$5 for 5 bugs"
                 amount={500}
                 token={token => this.props.handleToken(token)}
-                stripeKey={process.env.stripePublishableKey}
+                stripeKey="pk_test_gG5b0dBHoou9aCC9EfQVv7FV"
             >
                 <Button variant="contained" color="secondary">Buy Bugs</Button>
             </StripeCheckout>
