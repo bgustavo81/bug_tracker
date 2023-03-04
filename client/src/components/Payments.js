@@ -12,8 +12,8 @@ class Payments extends Component {
                 name="Bug Trackerly"
                 description="$5 for 5 bugs"
                 amount={500}
-                stripeKey="pk_test_gG5b0dBHoou9aCC9EfQVv7FV"
                 token={token => this.props.handleToken(token)}
+                stripeKey="pk_test_gG5b0dBHoou9aCC9EfQVv7FV"
             >
                 <Button variant="contained" color="secondary">Buy Bugs</Button>
             </StripeCheckout>
